@@ -2,6 +2,7 @@
 let faker = require("faker");
 
 let usersList = [{
+        _id: 1,
         name: "Varun Narayanan",
         email: "vchakravarthy21@g.ucla.edu",
         username: "varun1729",
@@ -13,6 +14,7 @@ let usersList = [{
 		experience: 0,
     },
     {
+        _id: 2,
         name: "Wilson Jusuf",
         email: "wilsonjusuf@g.ucla.edu",
         username: "willyspinn",

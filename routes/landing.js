@@ -8,8 +8,8 @@ let User = require("../models/user");
 router.get('/', function(req, res) {
 	User.find({}, '_id', function(error,foundUsers){
 		res.render("landing",{
-			id1: foundUsers[0]._id,
-			id2: foundUsers[1]._id,
+			ID1: foundUsers[0]._id,
+			ID2: foundUsers[1]._id,
 		});
 	});
 });
