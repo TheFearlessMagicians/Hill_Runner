@@ -2,7 +2,6 @@
 let mongoose = require("mongoose");
 
 //Passport set up 
-passportLocalMongoose = require("passport-local-mongoose");
 
 let userSchema = new mongoose.Schema({
 	name: String,
@@ -23,5 +22,4 @@ let userSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
-userSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", userSchema);

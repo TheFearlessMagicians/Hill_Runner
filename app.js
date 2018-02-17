@@ -16,20 +16,10 @@ let seed = require("./seed");
 seed();
 
 //Passport JS setup
-let passport = require('passport');
-LocalStrategy = require('passport-local').Strategy;
-app.use(require('express-session')({
-    secret: 'I wanna go poopiee!',
-    resave: false,
-    saveUninitialized: false
-}));
+
 
 //Not yet
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
 
 //BodyParser set up
 bodyParser = require("body-parser");
