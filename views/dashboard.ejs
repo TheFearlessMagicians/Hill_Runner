@@ -22,7 +22,7 @@
 			<h2>Exp: </h2>
 			<div class="container">
 			  <!-- Trigger the modal with a button -->
-			  <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Make Quest</button>
+			  <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
 			  <!-- Modal -->
 			  <div class="modal fade" id="myModal" role="dialog">
 			    <div class="modal-dialog modal-lg">
@@ -33,14 +33,20 @@
 			        </div>
 			        <div class="modal-body">
 
-				          <form action="/" method="POST" id="questForm">
+				          <form  id="questForm">
 				          	  <label>Name</label>
-	                          <input type="text" placeholder="Enter Name" name="quest[name]" class="form-control" required>
+	                          <input type="text" placeholder="Enter Name" id="name" class="form-control" required>
 
 	                          <label>Describe your quest </label>
-							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" name = "quest[description]" required></textarea>
+							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" id="description" required></textarea>
 
-							  <input type = "submit" name="Submit Quest!">
+							  <label>Reward</label>
+	                          <input type="" placeholder="Enter Name" id="reward" class="form-control" required>
+
+	                          <label>Address</label>
+	                          <input type="text" placeholder="Enter Where To Meet" id="address" class="form-control" required>
+
+							  <input type = "submit" name="Submit Quest!" id= "submitQuest">
 						</form>
 
 			        </div>
@@ -73,7 +79,7 @@
 <!-- socket code -->
 <script>
 /*Note: socket code needs access to these global variables:
-ID:
+ID: your id.
 */
     var socket = io.connect("localhost:8000");
     socket.on('connect',()=>{
@@ -82,20 +88,31 @@ ID:
 
     });
     //When a new quest is assigned:
-    $('form#questForm').submit(function(event){
+    $('input#submitQuest').on('click',function(event){
         questObject= {};//TODO
         socket.emit('assign_quest',questObject);
     });
 
+    //When YOU accept a quest:
+    $('ul#quests > li').on('click',function(event){
+    	console.log(event.currentTarget.id);
+    	questId = event.currentTarget.id; 
+    	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
+    	//Disable YOUR makeQuest functionality.
+    	$(`#makeQuest`).on('click',function() {
+   			 $(this).prop("disabled",true);
+		});
+    });
+
     socket.on('user_accepted_quest',(quest)=>{
         //what to do when someone accepted a quest
-
-        //i.e. don't display that quest anymore
+        // don't display that quest anymore
+         $(`ul#quests > li#${quest.id}`).remove();
     });
 
     socket.on('user_assigned_quest',(quest)=>{
         //What to do when someone made a new quest.
-
+        $(`ul#quests`).append(``)
     });
 
     socket.on('quest_completed',(quest)=>{
