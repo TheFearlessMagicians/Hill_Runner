@@ -8,6 +8,10 @@
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	  <link rel="stylesheet" href="/resources/demos/style.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	 <link rel="stylesheet" type="text/css" href="../public/style.css">
 </head>
 <body>
@@ -58,10 +62,37 @@
 			  </div>
 			</div>
 
-			<div class="container" id = "questLog">
+			<!-- Quest Table -->
+
+			<h2> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small> - click on quest for details</small><h2>
+			<table class="table table-hover" >
+			      <thead>
+			        <tr>
+			          <th>Quest Name</th>
+			          <th>Rewards</th>
+			          <th>Location</th>
+			        </tr>
+			      </thead>
+			      <tbody id = "quests">
+			      </tbody>
+		     </table>
+
+		   
+			<script>
+				$(`tbody#quests > tr`).on(`click`, (evt)=>{
+					$( `div#dialog.${evt.currentTarget.id}` ).dialog();
+				});
+		 	 </script>
+		       
+
+
+
+			<<!-- div class="container" id = "questLog">
 				<ul id = "quests">
 				</ul>
-			</div>
+			</div> -->
+
+
 
 			<!-- maps code -->
             <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
@@ -92,10 +123,10 @@ ID: your id.
         questObject= {
             'name': $('input#name').val(),
             'description':$('input#description').val(),
-            'reward':$('input$reward').val(),
+            'reward':$('input#reward').val(),
             'requester':ID,
             'hillrunner':'', // Empty for now.
-            'address':$('input$address').val()
+            'address':$('input#address').val()
 
         };
         socket.emit('assign_quest',questObject);
@@ -115,12 +146,20 @@ ID: your id.
     socket.on('user_accepted_quest',(quest)=>{
         //what to do when someone accepted a quest
         // don't display that quest anymore
-         $(`ul#quests > li#${quest.id}`).remove();
+         $(`tbody#quests > tr#${quest.id}`).remove();
     });
 
     socket.on('user_assigned_quest',(quest)=>{
         //What to do when someone made a new quest.
-        $(`ul#quests `).append(`<li id ="${quest.id}">${quest.name}, ${quest.description}, ${quest.reward}, ${quest.address} </li>`)
+        $(`tbody#quests`).append(`
+        	<tr id ="${quest.id}">
+	        	<td>${quest.name}</td>
+	       		<td> ${quest.reward}</td>
+	       		<td> ${quest.address}</td>
+	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
+  						<p></p>
+				</div>
+       		<tr>`);
     });
 
     socket.on('quest_completed',(quest)=>{
