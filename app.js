@@ -63,8 +63,7 @@ console.log('Serving on local host')
 
 //SOCKET CODE:
 io.on('connection',(client)=>{
-
-                    console.log('client connected');
+          console.log('client connected');
 
           //*************events for hillrunners:*********************//
           client.on('accept_quest',(quest)=>{
@@ -77,18 +76,18 @@ io.on('connection',(client)=>{
           //*************Events for quest assigners****************//
           client.on('assign_quest',(quest)=>{
                     //TODO 1: Add new quest to DB's quest collection:
-                    Quest.create({
-                              name:quest.name,
-                              requester = quest.requester,
-
-                              },function(error,createdUser){
-
-                    })
+                    Quest.create(quest,function(error,createdQuest){
+                    	if (error){
+                    		console.log("app.js: ERROR CREATING QUEST")
+                    	} else {
+                    		console.log(createdQuest);
+                    	}
+                    });
                     //TODO 2: update map for other users:
                     io.emit('user_assign_quest',quest);
 
           });
 
 
-          
+
 });
