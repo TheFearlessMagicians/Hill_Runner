@@ -42,6 +42,7 @@
 
 							  <input type = "submit" name="Submit Quest!">
 						</form>
+
 			        </div>
 			        <div class="modal-footer">
 			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,6 +80,11 @@ ID:
                 //Bind your ID to your socket when you connect so the server knows who you are.
         socket.emit('add_username',ID);
 
+    });
+    //When a new quest is assigned:
+    $('form#questForm').submit(function(event){
+        questObject= {};//TODO
+        socket.emit('assign_quest',questObject);
     });
 
     socket.on('user_accepted_quest',(quest)=>{
