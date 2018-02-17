@@ -74,22 +74,32 @@ io.on('connection',(client)=>{
 
 
           //*************Events for quest assigners****************//
-          client.on('assign_quest',(quest)=>{
-
-                    /*
-                    NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
-                    CORRECT FORMAT
-                    */
-                    //1. Create a new quest object.
-                    Quest.create(quest,function(error,createdQuest){
-                    	if (error){
-                    		console.log("app.js: create quest: ERROR CREATING QUEST")
-                    	} else {
-                    		console.log(`created a new quest called: ${quest.name}`);
-                            // 2. update map for other users:
-                            io.emit('user_assign_quest',quest);
-                    	}
-                    });
+          client.on('assign_quest', (quest) => {
+              //Add new quest to DB's quest collection:
+              /*
+              NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
+              CORRECT FORMAT
+              */
+              Quest.create(quest, function(error, createdQuest) {
+                  if (error) {
+                      console.log("app.js: ERROR CREATING QUEST")
+                  } else {
+                      console.log(`created a new quest called: ${quest.name}`);
+                      // update map for other users:
+                      io.emit('user_assign_quest', quest);
+                      User.findByIdAndUpdate(quest.requester, {
+                        $push: {
+                            quests: quest._id,
+                        },
+                      }, function(error, updatedPlayer){
+                        if (error){
+                            console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
+                        } else {
+                            ;
+                        }
+                      });
+                  }
+              });
           });
 
           client.on('complete_quest',(quest)=>{
