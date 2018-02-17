@@ -120,7 +120,7 @@ ID: your id.
 
     socket.on('user_assigned_quest',(quest)=>{
         //What to do when someone made a new quest.
-        $(`ul#quests`).append(``)
+        $(`ul#quests `).append(`<li id ="${quest.id}">${quest.name}, ${quest.description}, ${quest.reward}, ${quest.address} </li>`)
     });
 
     socket.on('quest_completed',(quest)=>{
