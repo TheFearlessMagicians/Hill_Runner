@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TheFearlessMagicians/Hill_Runner#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",

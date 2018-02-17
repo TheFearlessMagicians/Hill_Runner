@@ -12,8 +12,21 @@ let User = require("./models/user");
 let Quest = require("./models/quest");
 
 //Seeding the DB
-let seed = require("./seed");
+let seed = require("./seed/seed");
 seed();
+
+// SendGrid Setup
+const sgMail = require('@sendgrid/mail');
+const SG_API_KEY = require('./creds/SendGrid_creds.js');
+sgMail.setApiKey(SG_API_KEY);
+const msg = {
+  to: 'jiglix@gmail.com',
+  from: 'varun.narayanan1729@gmail.com',
+  subject: 'Welcome to Hill HillRunner',
+  html: 'Thanks for registering',
+};
+// sgMail.send(msg);
+
 
 //Passport JS setup
 
