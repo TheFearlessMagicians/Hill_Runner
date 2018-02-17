@@ -87,21 +87,22 @@ ID: your id.
         socket.emit('add_username',ID);
 
     });
-    //When a new quest is assigned:
+
+    //---------When a new quest is assigned-------------//:
     $('input#submitQuest').on('click',function(event){
         questObject= {
             'name': $('input#name').val(),
             'description':$('input#description').val(),
-            'reward':$('input$reward').val(),
+            'reward':$('input#reward').val(),
             'requester':ID,
-            'hillrunner':'', // Empty for now.
+            'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
             'address':$('input$address').val()
 
         };
         socket.emit('assign_quest',questObject);
     });
 
-    //When YOU accept a quest:
+    //----------------When YOU accept a quest----------------//:
     $('ul#quests > li').on('click',function(event){
     	console.log(event.currentTarget.id);
     	questId = event.currentTarget.id;
@@ -112,19 +113,20 @@ ID: your id.
 		});
     });
 
+//---------what to do when someone accepted a quest-----------//
     socket.on('user_accepted_quest',(quest)=>{
-        //what to do when someone accepted a quest
         // don't display that quest anymore
          $(`ul#quests > li#${quest.id}`).remove();
     });
 
+//---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
-        //What to do when someone made a new quest.
+        //TODO . make it nicer
         $(`ul#quests `).append(`<li id ="${quest.id}">${quest.name}, ${quest.description}, ${quest.reward}, ${quest.address} </li>`)
     });
 
+//-------What to do when YOU completed a quest. ------------//
     socket.on('quest_completed',(quest)=>{
-        //What to do when YOU completed a quest.
 
     });
 </script>
