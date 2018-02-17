@@ -20,7 +20,8 @@ var Game = function (_React$Component) {
 
 		_this.state = {
 			level: 0,
-			quests: ["Quest one", "Quest two", "Quest three"]
+			quests: ["Quest one", "Quest two", "Quest three"],
+			visibility: false
 		};
 		return _this;
 	}
@@ -32,7 +33,10 @@ var Game = function (_React$Component) {
 				"div",
 				null,
 				React.createElement(Header, { level: this.state.level }),
-				React.createElement(QuestLog, { quests: this.state.quests })
+				React.createElement(QuestLog, { quests: this.state.quests }),
+				React.createElement(AddQuest, { quests: this.state.quests,
+					visibility: this.state.visibility
+				})
 			);
 		}
 	}]);
@@ -121,6 +125,70 @@ var Quest = function (_React$Component4) {
 	}]);
 
 	return Quest;
+}(React.Component);
+
+var AddQuest = function (_React$Component5) {
+	_inherits(AddQuest, _React$Component5);
+
+	function AddQuest(props) {
+		_classCallCheck(this, AddQuest);
+
+		var _this5 = _possibleConstructorReturn(this, (AddQuest.__proto__ || Object.getPrototypeOf(AddQuest)).call(this, props));
+
+		_this5.state = {
+			visibility: _this5.props.visibility
+		};
+		_this5.toggleVisibility = _this5.toggleVisibility.bind(_this5);
+		_this5.handleAddQuest = _this5.handleAddQuest.bind(_this5);
+		return _this5;
+	}
+
+	_createClass(AddQuest, [{
+		key: "handleAddQuest",
+		value: function handleAddQuest(e) {
+			e.preventDefault(); //No refresh
+
+			var quest = e.target.element.quest.value.trim();
+
+			if (quest) {
+				this.props.quests.push(quest);
+			}
+		}
+	}, {
+		key: "toggleVisibility",
+		value: function toggleVisibility() {
+			this.setState(function (prevState) {
+				return {
+					visibility: !prevState.visibility
+				};
+			});
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"button",
+					{ onClick: this.toggleVisibility },
+					"Add Quest"
+				),
+				this.state.visibility && React.createElement(
+					"form",
+					{ onSubmit: this.handleAddQuest },
+					React.createElement("input", { type: "text", name: "quest" }),
+					React.createElement(
+						"button",
+						{ onClick: this.toggleVisibility },
+						"Submit Quest"
+					)
+				)
+			);
+		}
+	}]);
+
+	return AddQuest;
 }(React.Component);
 
 ReactDOM.render(React.createElement(Game, null), document.getElementById("gameconsole"));
