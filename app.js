@@ -7,6 +7,9 @@ const serverPort = 8000;
 //Socket.io setup
 io = require('socket.io')();
 
+//Models
+let User = require("./models/user")
+
 //Passport JS setup
 let passport = require('passport');
 LocalStrategy = require('passport-local').Strategy;
@@ -15,12 +18,12 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+//Not yet
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //BodyParser set up
 bodyParser = require("body-parser");
@@ -36,6 +39,8 @@ app.use(methodOverride('_method'))
 
 //Route configuration
 app.use('/public', express.static(__dirname + '/public'));
+app.use(require('./routes/landing'));
+
 
 //App settings 
 app.set('port', serverPort);
