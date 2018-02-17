@@ -1,0 +1,51 @@
+//Express JS setup
+let express = require("express")
+let app = express();
+let router = require('express-router');
+const serverPort = 8000;
+
+//Socket.io setup
+io = require('socket.io')();
+
+//Passport JS setup
+let passport = require('passport');
+LocalStrategy = require('passport-local').Strategy;
+app.use(require('express-session')({
+    secret: 'I wanna go poopiee',
+    resave: false,
+    saveUninitialized: false
+}));
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+//BodyParser set up
+bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//Mongoose set up
+mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/HillRunner");
+
+//MethodOverride set up
+let methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
+//Route configuration
+app.use('/public', express.static(__dirname + '/public'));
+
+//App settings 
+app.set('port', serverPort);
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+app.set('sockets', []);
+
+//Server setup
+let server = app.listen(app.get('port'), function() {
+    console.log('Listening on port ' + app.get('port'));
+});
+app.set('isLocal', true);
+console.log('Serving on local host')
