@@ -47,7 +47,7 @@ app.use(methodOverride('_method'));
 app.use('/public', express.static(__dirname + '/public'));
 app.use(require('./routes/landing'));
 
-//App settings 
+//App settings
 app.set('port', serverPort);
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -58,4 +58,28 @@ let server = app.listen(app.get('port'), function() {
     console.log('Listening on port ' + app.get('port'));
 });
 app.set('isLocal', true);
-console.log('Serving on local host');
+console.log('Serving on local host')
+
+
+//SOCKET CODE:
+io.on('connection',(client)=>{
+                    console.log('client connected');
+          //*************events for hillrunners:*********************//
+          client.on('accept_quest',(quest)=>{
+                    //TODO: 1. update quest object's state field:
+                    //TODO: 2. update map for other users:
+                    io.emit('user_accept_quest',quest);
+          });
+
+          //*************Events for quest assigners****************//
+          client.on('assign_quest',(quest)=>{
+                    //TODO 1: Add new quest to DB's quest collection:
+                    Quest.create()
+                    //TODO 2: update map for other users:
+                    io.emit('user_assign_quest',quest);
+
+          });
+
+
+
+});
