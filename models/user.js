@@ -4,6 +4,7 @@ let mongoose = require("mongoose");
 //Passport set up 
 
 let userSchema = new mongoose.Schema({
+	_id: Number,
 	name: String,
 	email: String,
 	username: String, 
