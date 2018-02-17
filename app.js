@@ -55,7 +55,7 @@ console.log('Serving on local host')
 io.on('connection',(client)=>{
           console.log('client connected');
 
-          //*************events for hillrunners:*********************//
+          //**************************events for hillrunners:*****************************//
           client.on('accept_quest',(quest)=>{
                     // 1. update quest object's state field:
                     Quest.findAndUpdate({id: quest._id},  {
@@ -66,6 +66,7 @@ io.on('connection',(client)=>{
                         }
                         else{
                             //2. update map for other users:
+
                             io.emit('user_accept_quest',quest);
                         }
                     });
@@ -75,18 +76,17 @@ io.on('connection',(client)=>{
 
           //*************Events for quest assigners****************//
           client.on('assign_quest', (quest) => {
-              //Add new quest to DB's quest collection:
               /*
               NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
               CORRECT FORMAT
               */
+            //1. Add new quest to DB's quest collection:
               Quest.create(quest, function(error, createdQuest) {
                   if (error) {
                       console.log("app.js: ERROR CREATING QUEST")
                   } else {
                       console.log(`created a new quest called: ${quest.name}`);
-                      // update map for other users:
-                      io.emit('user_assign_quest', quest);
+                      //2. Update user db to add this new quest:
                       User.findByIdAndUpdate(quest.requester, {
                         $push: {
                             quests: quest._id,
@@ -95,15 +95,18 @@ io.on('connection',(client)=>{
                         if (error){
                             console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
                         } else {
-                            ;
+                            //3. update map for other users:
+                            io.emit('user_assign_quest', quest);
                         }
                       });
                   }
               });
           });
 
+
           client.on('complete_quest',(quest)=>{
               console.log(`quest ${quest.name} completed.`);
+              //1. Update completion in quest collection
               Quest.findAndUpdate({id: quest._id},  {
                   state: "completed"
               },function (error,foundQuest){
