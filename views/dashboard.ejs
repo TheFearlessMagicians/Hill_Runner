@@ -16,7 +16,7 @@
 			<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
-			<script src= "../public/script/JSX.js"></script> 
+			<script src= "../public/script/JSX.js"></script>
 
  			<h1>Level: </h1>
 			<h2>Exp: </h2>
@@ -89,14 +89,22 @@ ID: your id.
     });
     //When a new quest is assigned:
     $('input#submitQuest').on('click',function(event){
-        questObject= {};//TODO
+        questObject= {
+            'name': $('input#name').val(),
+            'description':$('input#description').val(),
+            'reward':$('input$reward').val(),
+            'requester':ID,
+            'hillrunner':'', // Empty for now.
+            'address':$('input$address').val()
+
+        };
         socket.emit('assign_quest',questObject);
     });
 
     //When YOU accept a quest:
     $('ul#quests > li').on('click',function(event){
     	console.log(event.currentTarget.id);
-    	questId = event.currentTarget.id; 
+    	questId = event.currentTarget.id;
     	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
     	//Disable YOUR makeQuest functionality.
     	$(`#makeQuest`).on('click',function() {
