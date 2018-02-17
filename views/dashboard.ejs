@@ -1,23 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="/socket.io/socket.io.js"></script>
 	<title> Hill Runners!</title>
-	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	 <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	 <link rel="stylesheet" type="text/css" href="../public/style.css">
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
 		<div class= "container" id= "phone">
-			<div id = "gameconsole"></div>
+			<!-- <div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
-			<script src= "../public/script/JSX.js"></script>
+			<script src= "../public/script/JSX.js"></script> -->
+
+			<h1>Level: </h1>
+			<h2>Exp: </h2>
+			<div class="container">
+			  <!-- Trigger the modal with a button -->
+			  <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Make Quest</button>
+			  <!-- Modal -->
+			  <div class="modal fade" id="myModal" role="dialog">
+			    <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Make Quest</h4>
+			        </div>
+			        <div class="modal-body">
+
+				          <form action="/" method="POST" id="questForm">
+				          	  <label>Name</label>
+	                          <input type="text" placeholder="Enter Name" name="quest[name]" class="form-control" required>
+
+	                          <label>Describe your quest </label>
+							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" name = "quest[description]" required></textarea>
+
+							  <input type = "submit" name="Submit Quest!">
+						</form>
+			        </div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+			<div class="container" id = "questLog">
+				<ul id = "quests">
+				</ul>
+			</div>
+			<!-- socket code -->
+			<script>
+				var socket = io.connect("localhost:8000");
+				socket.on('connect',()=>{
+					
+				});
+			</script>
+			<!-- maps code -->
             <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
             </script>
             <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%- gmapsCredential %>&callback=initMap">
             </script>
             <script src= " ../public/script/maps.js"></script>
-
+			
         </div>
 
 	</div>
