@@ -57,12 +57,12 @@ io.on('connection',(client)=>{
 
           //*************events for hillrunners:*********************//
           client.on('accept_quest',(quest)=>{
-                    //TODO: 1. update quest object's state field:
+                    // 1. update quest object's state field:
                     Quest.findAndUpdate({id: quest._id},  {
                         state: "accepted"
                     },function (error,foundQuest){
                         if (error){
-                            console.log(`app.js: FINDANDUPDATE FOR ${quest.name} FAILED.`)
+                            console.log(`app.js: accepted in FINDANDUPDATE FOR ${quest.name} FAILED.`)
                         }
                         else{
                             //2. update map for other users:
@@ -75,22 +75,41 @@ io.on('connection',(client)=>{
 
           //*************Events for quest assigners****************//
           client.on('assign_quest',(quest)=>{
-                    //Add new quest to DB's quest collection:
+
                     /*
                     NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
                     CORRECT FORMAT
                     */
+                    //1. Create a new quest object.
                     Quest.create(quest,function(error,createdQuest){
                     	if (error){
-                    		console.log("app.js: ERROR CREATING QUEST")
+                    		console.log("app.js: create quest: ERROR CREATING QUEST")
                     	} else {
                     		console.log(`created a new quest called: ${quest.name}`);
-                            // update map for other users:
+                            // 2. update map for other users:
                             io.emit('user_assign_quest',quest);
                     	}
                     });
           });
-          
+
+          client.on('complete_quest',(quest)=>{
+              console.log(`quest ${quest.name} completed.`);
+              Quest.findAndUpdate({id: quest._id},  {
+                  state: "completed"
+              },function (error,foundQuest){
+                  if (error){
+                      console.log(`app.js: completion in FINDANDUPDATE FOR ${quest.name} FAILED.`)
+                  }
+                  else{
+                      //2. confirm completion with hillrunner.
+                      client.emit('quest_completed',quest);
+                  }
+              });
+
+
+
+          });
+
 
 
 
