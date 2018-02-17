@@ -7,6 +7,10 @@ let questSchema = new mongoose.Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: "User",
 	},
+	hillRunner: {
+		type: mongoose.Schema.ObjectId,
+		ref: "User",
+	},
 	description: String,
 	reward: Number,
 	state: String,
