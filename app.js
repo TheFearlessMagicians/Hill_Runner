@@ -8,7 +8,12 @@ const serverPort = 8000;
 let io = require('socket.io')();
 
 //Models
-let User = require("./models/user")
+let User = require("./models/user");
+let Quest = require("./models/quest");
+
+//Seeding the DB
+let seed = require("./seed");
+seed();
 
 //Passport JS setup
 let passport = require('passport');
@@ -34,8 +39,8 @@ mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/HillRunner");
 
 //MethodOverride set up
-let methodOverride = require('method-override')
-app.use(methodOverride('_method'))
+let methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 //Route configuration
 app.use('/public', express.static(__dirname + '/public'));
@@ -57,7 +62,7 @@ console.log('Serving on local host')
 
 //SOCKET CODE:
 io.on('connection',(client)=>{
-          console.log('client connected');
+                    console.log('client connected');
           //*************events for hillrunners:*********************//
           client.on('accept_quest',(quest)=>{
                     //TODO: 1. update quest object's state field:
