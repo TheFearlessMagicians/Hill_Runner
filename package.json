@@ -27,6 +27,7 @@
     "express": "^4.16.2",
     "express-router": "0.0.1",
     "express-session": "^1.15.6",
+    "faker": "^4.1.0",
     "fs": "0.0.1-security",
     "live-server": "^1.2.0",
     "method-override": "^2.3.10",
