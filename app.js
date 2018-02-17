@@ -55,16 +55,24 @@ console.log('Serving on local host')
 io.on('connection',(client)=>{
           console.log('client connected');
           //******************************Events for everyone ***************************//
-          //set uniquely identifying username (could be object id.)
+          //set uniquely identifying username (user's  id). This is for referring the socket to a user.
           client.on('add_username',(username)=>{
-              client.username = username;
+              if (!io.sockets.sockets.map((user)=>{
+                  return user.username;
+              }).includes(username)){
+                    client.username = username;
+                    client.emit('username_added',{'status':'ok'});
+                }
+                else{
+                    client.emit('username_added',{'status':'declined'});
+                }
           });
 
 
 
           //**************************events for hillrunners:*****************************//
           client.on('accept_quest',(object)=>{
-              //note that object is : {id: 'ID OF QUEST',hillrunner:'ID OF HILLRUNNER.'}
+              //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
                     // 1. update quest object's state field:
                     Quest.findAndUpdate({id: object.id},  {
                         state: "accepted",
@@ -76,7 +84,7 @@ io.on('connection',(client)=>{
                         else{
                             //2. update map for other users:
 
-                            io.emit('user_accept_quest',object.id);
+                            io.emit('user_accepted_quest',object.id);
                         }
                     });
 
@@ -105,7 +113,7 @@ io.on('connection',(client)=>{
                             console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
                         } else {
                             //3. update map for other users:
-                            io.emit('user_assign_quest', quest);
+                            io.emit('user_assigned_quest', quest);
                         }
                       });
                   }
@@ -123,12 +131,11 @@ io.on('connection',(client)=>{
                       console.log(`app.js: completion in FINDANDUPDATE FOR ${quest.name} FAILED.`)
                   }
                   else{
-
                       //2 update reward into hillrunner's moneyearned.
                       User.findAndUpdate({id: quest.hillrunner/* TODO: Find the user's ID*/},{
                           $inc: {
                               moneyearned: quest.reward,
-                              experience: 100, 
+                              experience: 100,
                               level: 1,
                           }
                       },function(error, HillRunner){
@@ -138,10 +145,10 @@ io.on('connection',(client)=>{
                       //quest.requester.
 
 
-                      //4. send completion  confirmation event with quest's hillrunner.
-                      io.sockets.sockets.map(function(sockets){
+                      //4. send completion confirmation event to quest's hillrunner's socket..
+                      io.sockets.sockets[io.sockets.sockets.map(function(sockets){
                           return sockets.username;
-                      })[quest.hillrunner].emit('quest_completed',quest);
+                      }).indexOf(quest.hillrunner)].emit('quest_completed',quest);//emit to the hillrunner, and hillrunner can update exp, earned money, in their own view.
                   }
               });
 

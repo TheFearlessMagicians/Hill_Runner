@@ -12,7 +12,14 @@
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
 			<script src= "../public/script/JSX.js"></script>
-		</div>
+            <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+            </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%- gmapsCredential %>&callback=initMap">
+            </script>
+            <script src= " ../public/script/maps.js"></script>
+
+        </div>
+
 	</div>
 </body>
 </html>
