@@ -23,6 +23,7 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
+
 //Not yet
 app.use(passport.initialize());
 app.use(passport.session());
