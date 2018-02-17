@@ -1,7 +1,6 @@
-<script src = "/public/gmapsStyle.js"></script>
-                          <script>
-                          //dummy data
-                          function addDummyDogs(centerLatLng) {
+
+                          function addDummyQuests(centerLatLng) {
+                              //TODO
                               let locations = [];
                               for (let i = 0; i < 20; i++)
                                   locations.push({
@@ -10,7 +9,7 @@
                                   });
                               return locations;
                           }
-
+                        //Called when gmaps loads:
                           function initMap() {
                               //GEO LOCATION
                               //var infoWindow = new google.maps.InfoWindow;
@@ -19,12 +18,14 @@
                               console.log('initmap called.')
                             //  if (navigator.geolocation) {
                   //                navigator.geolocation.getCurrentPosition(function(position) {
+
+                                    //Hardcoded UCLA position:
                                       var pos = {
-                                          lat:  33.6488294,//position.coords.longitude
-                                          lng:-117.84275960000001,//position.coords.latitude,
+                                          lat:  34.068921,//position.coords.latitude
+                                          lng:-118.445181,//position.coords.longitude
                                       };
 
-                                      socket.emit('POSITION_RECEIVED', pos);
+
                                       var map = new google.maps.Map(document.getElementById('map'), {
                                           zoom: 13,
                                           center: pos,
@@ -35,25 +36,22 @@
                                       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
                                       // -------------------REAL CODE FOR MAP UPDATING ----------------------------------//
-                                      socket.on('DOGS_NEAR_USER', function(dogs) {
-                                                console.log('dogs near user response received.');
-                                                console.log(`no of dogs queried: ${dogs.length}`)
-                                                   var markers= dogs.map(function(dog, i) {
+                            //          socket.on('QUESTS_NEAR_USER', function(quests) {
+                            //TODO: We need a quests object for initialisation.
+                                                //console.log('quests near user response received.');
+                                                console.log(`no of quests queried: ${quests.length}`)
+                                                   var markers= quests.map(function(quest, i) {
 
                                                                // console.log(dog.name+' marker added.'+i)
                                                         return new google.maps.Marker({
-                                                            position: new google.maps.LatLng(parseFloat(dog.geo['lat'])+ Math.random() * 0.02, parseFloat(dog.geo['lng'])+ Math.random() * 0.02),//TODO: DIFFERENT FORMAT.
+                                                            position: new google.maps.LatLng(quest.coordinates[1], quest.coordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
                                                             label: labels[i % labels.length],
-                                                            dogName:dog.name,
                                                            map:map,//,
-                                                            dogPicUrl:dog.picURL,
-                                                            dogUrl: dog.url,
-                                                            ownerUrl:dog.owner // TODO : get owner uri.
+                                                           icon:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                           name:quest.name
                                                         });
                                                     });
 
-
-                                                    //
 
                                                     var infowindows=[];
                                                          // Add a marker clusterer to manage the markers.
@@ -61,26 +59,19 @@
                                                          markers.forEach((marker,i)=>{
                                                                    console.log('putting marker '+i)
                                                                  infowindows.push(  new google.maps.InfoWindow({
-                                                                                content:  getdogPopupString(marker.dogName,'public/Dogs/samoyed-puppy.jpg',marker.dogUrl,'/user/'+marker.ownerUrl)
+                                                                                content:marker.name//  getdogPopupString(marker.dogName,'public/quests/samoyed-puppy.jpg',marker.dogUrl,'/user/'+marker.ownerUrl)
                                                                       }));
-
-
                                                                       google.maps.event.addListener(marker, 'click', function() {
                                                                                 infowindows[i].open(map,this);
                                                          });
-
                                                });
-
-
                                                       var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-
-
-                                      });
+                                    //  });
                                                 //    map.setCenter(pos);
                                                 google.maps.event.addListener(map, 'tilesloaded', function(){
-                                                     //document.getElementById('loading').innerHTML = '';
+
                                                      $(`#loading`).css("display", "none");
-                                                    // map.setCenter(pos);
+
                                                 });
 
 
