@@ -6,17 +6,18 @@ passportLocalMongoose = require("passport-local-mongoose");
 
 let userSchema = new mongoose.Schema({
 	name: String,
-	nickName: String,
 	email: String,
-	username: String,
+	username: String, 
 	password: String,
-	address: {
-		houseAddress: String,
-		city: String,
-		state: String,
-		zip: String,
+	address: String,
+	quests: [{
+		type: mongoose.Schema.ObjectId,
+		ref: "Quest",
+	}],
+	coordinates: {
+		type: [Number],
+		index: '2d',
 	},
-	url: String,
 	created: {
 		type: Date,
 		default: Date.now,

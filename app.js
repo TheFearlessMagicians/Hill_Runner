@@ -5,7 +5,7 @@ let router = require('express-router');
 const serverPort = 8000;
 
 //Socket.io setup
-io = require('socket.io')();
+let io = require('socket.io')();
 
 //Models
 let User = require("./models/user")
@@ -40,7 +40,6 @@ app.use(methodOverride('_method'))
 //Route configuration
 app.use('/public', express.static(__dirname + '/public'));
 app.use(require('./routes/landing'));
-
 
 //App settings 
 app.set('port', serverPort);
