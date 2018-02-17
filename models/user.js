@@ -9,6 +9,9 @@ let userSchema = new mongoose.Schema({
 	username: String, 
 	password: String,
 	address: String,
+	level: Number,
+	moneyEarned: Number,
+	experience: Number,
 	quests: [{
 		type: mongoose.Schema.ObjectId,
 		ref: "Quest",
