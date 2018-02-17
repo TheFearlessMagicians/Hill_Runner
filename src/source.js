@@ -3,11 +3,26 @@ console.log("React is on!");
 class Game extends React.Component{
 	constructor(props){
 		super(props);
+		this.handleAddQuest = this.handleAddQuest.bind(this);
 		this.state = {
 			level: 0,
 			quests: ["Quest one", "Quest two", "Quest three"],
 			visibility: false
 		};
+	}
+	handleAddQuest(e){
+
+		e.preventDefault();
+
+		const quest = e.target.element.quest.value.trim();
+
+		if(quest){
+			this.state.quests.push(quest);
+			this.setState({
+				quests: this.state.quests
+			});
+			
+		}
 	}
 
 	render(){
@@ -15,7 +30,7 @@ class Game extends React.Component{
 		<div>
 			<Header level = {this.state.level}/>
 			<QuestLog quests={this.state.quests}/>
-			<AddQuest quests={this.state.quests} 
+			<AddQuest quests={this.state.quests} addQuest={this.handleAddQuest} 
 			visibility={this.state.visibility}
 			/>
 		</div>
@@ -66,17 +81,6 @@ class AddQuest extends React.Component {
 			visibility: this.props.visibility
 		}
 		this.toggleVisibility = this.toggleVisibility.bind(this);
-		this.handleAddQuest = this.handleAddQuest.bind(this);
-	}
-
-	handleAddQuest(e){
-		e.preventDefault(); //No refresh
-
-		const quest = e.target.element.quest.value.trim();
-
-		if(quest){
-			this.props.quests.push(quest);
-		}
 	}
 
 	toggleVisibility(){
@@ -94,9 +98,9 @@ class AddQuest extends React.Component {
 				Add Quest
 			</button>
 			{this.state.visibility && (
-				<form onSubmit = {this.handleAddQuest}>
+				<form onSubmit ={this.props.addQuest}>
 					<input type="text"  name= "quest"/>
-					<button onClick={this.toggleVisibility}>Submit Quest</button>
+					<button onClick={this.toggleVisibility} type="button" name= "Submit!"/>
 				</form>
 			)}
 			</div>

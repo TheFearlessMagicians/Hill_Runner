@@ -18,6 +18,7 @@ var Game = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
+		_this.handleAddQuest = _this.handleAddQuest.bind(_this);
 		_this.state = {
 			level: 0,
 			quests: ["Quest one", "Quest two", "Quest three"],
@@ -27,6 +28,21 @@ var Game = function (_React$Component) {
 	}
 
 	_createClass(Game, [{
+		key: "handleAddQuest",
+		value: function handleAddQuest(e) {
+
+			e.preventDefault();
+
+			var quest = e.target.element.quest.value.trim();
+
+			if (quest) {
+				this.state.quests.push(quest);
+				this.setState({
+					quests: this.state.quests
+				});
+			}
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			return React.createElement(
@@ -34,7 +50,7 @@ var Game = function (_React$Component) {
 				null,
 				React.createElement(Header, { level: this.state.level }),
 				React.createElement(QuestLog, { quests: this.state.quests }),
-				React.createElement(AddQuest, { quests: this.state.quests,
+				React.createElement(AddQuest, { quests: this.state.quests, addQuest: this.handleAddQuest,
 					visibility: this.state.visibility
 				})
 			);
@@ -139,22 +155,10 @@ var AddQuest = function (_React$Component5) {
 			visibility: _this5.props.visibility
 		};
 		_this5.toggleVisibility = _this5.toggleVisibility.bind(_this5);
-		_this5.handleAddQuest = _this5.handleAddQuest.bind(_this5);
 		return _this5;
 	}
 
 	_createClass(AddQuest, [{
-		key: "handleAddQuest",
-		value: function handleAddQuest(e) {
-			e.preventDefault(); //No refresh
-
-			var quest = e.target.element.quest.value.trim();
-
-			if (quest) {
-				this.props.quests.push(quest);
-			}
-		}
-	}, {
 		key: "toggleVisibility",
 		value: function toggleVisibility() {
 			this.setState(function (prevState) {
@@ -176,13 +180,9 @@ var AddQuest = function (_React$Component5) {
 				),
 				this.state.visibility && React.createElement(
 					"form",
-					{ onSubmit: this.handleAddQuest },
+					{ onSubmit: this.props.addQuest },
 					React.createElement("input", { type: "text", name: "quest" }),
-					React.createElement(
-						"button",
-						{ onClick: this.toggleVisibility },
-						"Submit Quest"
-					)
+					React.createElement("button", { onClick: this.toggleVisibility, type: "button", name: "Submit!" })
 				)
 			);
 		}
