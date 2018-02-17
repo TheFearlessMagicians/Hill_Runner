@@ -55,22 +55,45 @@
 				<ul id = "quests">
 				</ul>
 			</div>
-			<!-- socket code -->
-			<script>
-				var socket = io.connect("localhost:8000");
-				socket.on('connect',()=>{
-					
-				});
-			</script>
+
 			<!-- maps code -->
             <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
             </script>
             <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%- gmapsCredential %>&callback=initMap">
             </script>
             <script src= " ../public/script/maps.js"></script>
-			
+
         </div>
 
 	</div>
 </body>
 </html>
+
+<!-- socket code -->
+<script>
+/*Note: socket code needs access to these global variables:
+ID:
+*/
+    var socket = io.connect("localhost:8000");
+    socket.on('connect',()=>{
+                //Bind your ID to your socket when you connect so the server knows who you are.
+        socket.emit('add_username',ID);
+
+    });
+
+    socket.on('user_accepted_quest',(quest)=>{
+        //what to do when someone accepted a quest
+
+        //i.e. don't display that quest anymore
+    });
+
+    socket.on('user_assigned_quest',(quest)=>{
+        //What to do when someone made a new quest.
+
+    });
+
+    socket.on('quest_completed',(quest)=>{
+        //What to do when YOU completed a quest.
+
+    });
+</script>
