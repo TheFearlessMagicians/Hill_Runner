@@ -54,27 +54,36 @@ console.log('Serving on local host')
 //SOCKET CODE:
 io.on('connection',(client)=>{
           console.log('client connected');
+          //******************************Events for everyone ***************************//
+          //set uniquely identifying username (could be object id.)
+          client.on('add_username',(username)=>{
+              client.username = username;
+          });
+
+
 
           //**************************events for hillrunners:*****************************//
-          client.on('accept_quest',(quest)=>{
+          client.on('accept_quest',(object)=>{
+              //note that object is : {id: 'ID OF QUEST',hillrunner:'ID OF HILLRUNNER.'}
                     // 1. update quest object's state field:
-                    Quest.findAndUpdate({id: quest._id},  {
-                        state: "accepted"
+                    Quest.findAndUpdate({id: object.id},  {
+                        state: "accepted",
+                        hillrunner:object.hillrunner
                     },function (error,foundQuest){
                         if (error){
-                            console.log(`app.js: accepted in FINDANDUPDATE FOR ${quest.name} FAILED.`)
+                            console.log(`app.js: accepted in FINDANDUPDATE FOR ${object.id} FAILED.`)
                         }
                         else{
                             //2. update map for other users:
 
-                            io.emit('user_accept_quest',quest);
+                            io.emit('user_accept_quest',object.id);
                         }
                     });
 
           });
 
 
-          //*************Events for quest assigners****************//
+          //*************************Events for quest assigners***********************//
           client.on('assign_quest', (quest) => {
               /*
               NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
@@ -114,8 +123,24 @@ io.on('connection',(client)=>{
                       console.log(`app.js: completion in FINDANDUPDATE FOR ${quest.name} FAILED.`)
                   }
                   else{
-                      //2. confirm completion with hillrunner.
-                      client.emit('quest_completed',quest);
+
+                      //2 update reward into hillrunner's moneyearned.
+                      User.findAndUpdate({id: quest.hillrunner/* TODO: Find the user's ID*/},{
+                          $inc: {
+                              moneyearned: quest.reward,
+
+                          }
+                      }function(error, HillRunner){
+
+                      });
+                      //3. TODO: EMAIL API: Confirm completion through email.
+                      //quest.requester.
+
+
+                      //4. send completion  confirmation event with quest's hillrunner.
+                      io.sockets.sockets.map(function(sockets){
+                          return sockets.username;
+                      })[quest.hillrunner].emit('quest_completed',quest);
                   }
               });
 
