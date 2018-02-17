@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/TheFearlessMagicians/Hill_Runner#readme",
   "dependencies": {
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1",
     "body-parser": "^1.18.2",
     "chokidar": "^2.0.1",
     "cloudinary": "^1.9.1",
