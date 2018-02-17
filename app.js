@@ -128,9 +128,10 @@ io.on('connection',(client)=>{
                       User.findAndUpdate({id: quest.hillrunner/* TODO: Find the user's ID*/},{
                           $inc: {
                               moneyearned: quest.reward,
-
+                              experience: 100, 
+                              level: 1,
                           }
-                      }function(error, HillRunner){
+                      },function(error, HillRunner){
 
                       });
                       //3. TODO: EMAIL API: Confirm completion through email.
