@@ -8,7 +8,12 @@ const serverPort = 8000;
 let io = require('socket.io')();
 
 //Models
-let User = require("./models/user")
+let User = require("./models/user");
+let Quest = require("./models/quest");
+
+//Seeding the DB
+let seed = require("./seed");
+seed();
 
 //Passport JS setup
 let passport = require('passport');
@@ -34,8 +39,8 @@ mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/HillRunner");
 
 //MethodOverride set up
-let methodOverride = require('method-override')
-app.use(methodOverride('_method'))
+let methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 //Route configuration
 app.use('/public', express.static(__dirname + '/public'));
@@ -52,4 +57,4 @@ let server = app.listen(app.get('port'), function() {
     console.log('Listening on port ' + app.get('port'));
 });
 app.set('isLocal', true);
-console.log('Serving on local host')
+console.log('Serving on local host');
