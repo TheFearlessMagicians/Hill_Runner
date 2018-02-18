@@ -86,6 +86,8 @@ io.on('connection', (client) => {
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
+        object.hillrunner =mongoose.Types.ObjectId(object.hillrunner);
+        object.id = mongoose.Types.ObjectId(object.id);
         Quest.findByIdAndUpdate(object.id, {
             state: "accepted",
             hillrunner: object.hillrunner
@@ -94,11 +96,11 @@ io.on('connection', (client) => {
                 console.log(`app.js: ACCEPT IN FINDANDUPDATE FOR ${object.id} FAILED.`)
             } else {
                 //2. update map for other users:
-                User.findById({ id: quest.hillrunner /* TODO: Find the user's ID*/ }, {}, function(error, hillRunner) {
+                User.findById({ id: object.hillrunner /* TODO: Find the user's ID*/ }, {}, function(error, hillRunner) {
                     if (error) {
                         console.log("app.js FAILED TO FIND HILL RUNNER AND SEND HIM/HER EMAIL CONFIRMATION FOR ACCEPTING");
                     } else {
-                        User.findById(quest.requester, function(error, requester) {
+                        User.findById(foundQuest.requester, function(error, requester) {
                             if (error) {
                                 console.log("app.js FAILED TO FIND REQUESTER AND SEND HIM/HER EMAIL CONFIRMATION FOR ACCEPTING");
                             } else {
@@ -106,15 +108,16 @@ io.on('connection', (client) => {
                                 let textRequester = `You quest has been accepted.\n
 		                      		Deatails\n
 		                      		Accepted by ${hillRunner.name}\n
-		                      		Reward to be paid ${quest.reward}\n
-		                      		Accepted at ${quest.updatedAt}\n
+		                      		Reward to be paid ${foundQuest.reward}\n
+		                      		Accepted at ${foundQuest.updatedAt}\n
 		                      		\n
 		                      		Thank-you for using Hill Runner!
 		                      		`
                                 sendEmail(requester.email, subjectRequester, textRequester);
+
                                 let subjectHillRunner = "You have received a quest";
                                 let textHillRunner = `You have received a quest from ${requester.name}.\n
-		                      		Your reward for completion is ${quest.reward}.\n
+		                      		Your reward for completion is ${foundQuest.reward}.\n
 		                      		You will earn 100 experience points.\n
 		                      		\n
 		                      		Thank-you for using Hill Runner!
