@@ -81,6 +81,9 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
+             <div id="dialogContainer" style="visibility: hidden; height:0%; overflow:hidden;">
+
+             </div>
             <div class="container" id="mapcontainer" style="height:50%; width: 100%">
                 <div id="map" style="height: 100%">
 
@@ -92,16 +95,20 @@
             var USER = <%- JSON.stringify(USER) %>;
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
             function addToQuestTable(quest){
+
+                console.log(`adding ${quest.name} to tbody.`);
             	 $(`tbody#quests`).append(`
-        	<tr id ="${quest.id}">
+        	<tr id ="${quest._id}">
 	        	<td>${quest.name}</td>
 	       		<td> ${quest.reward}</td>
 	       		<td> ${quest.address}</td>
-	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
-  						<p>${quest.description}</p>
-  						<button id = ${quest.id}> Accept </button>
-				</div>
-       		<tr>`);
+                </tr>
+       		`);
+            $('div#dialogContainer').append(`
+                <div id="dialog" class="${quest._id}" title="Basic dialog">
+                        <p>${quest.description}</p>
+                        <button id = ${quest._id}> Accept </button>
+                </div>`);
             	};
             function changeUserStat(mode,level,exp){
             if (mode=='add'){
@@ -127,7 +134,8 @@
 
 			<script>
 				$(`tbody#quests > tr`).on(`click`, (evt)=>{
-					$( `div#dialog.${evt.currentTarget.id}` ).dialog();
+                    console.log(`clicked tr#${evt.currentTarget.id}`)
+					$( `div#dialog.${evt.currentTarget.id}` ).dialog(/*'open'*/);
 				});
 		 	 </script>
 
