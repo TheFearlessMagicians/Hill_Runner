@@ -104,7 +104,7 @@ io.on('connection', (client) => {
 		                      		Deatails\n
 		                      		Accepted by ${hillRunner.name}\n
 		                      		Reward to be paid ${quest.reward}\n
-		                      		Accepted at ${quest.updatedAt}\n
+		                      		Accepted at ${quest. }\n
 		                      		\n
 		                      		Thank-you for using Hill Runner!
 		                      		`
