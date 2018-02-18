@@ -202,7 +202,7 @@ ID: your id.
 
     //----------------When YOU accept a quest----------------//:
     $(' div#dialog >button').on('click',function(event){
-        if (STATE == 'none' ){
+        //if (STATE == 'none' ){
         	console.log(event.currentTarget.id);
         	questId = event.currentTarget.id;
         	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
@@ -212,7 +212,7 @@ ID: your id.
        			 $(this).prop("disabled",true);
     		});
             STATE = 'hillrunner';
-        }
+        /*}
         else if(STATE == 'quest_assigner'){
             console.log('youre a quest assigner, you cannot hillrun for someone!');
             alert('you assigned a quest for someone, you cannot hillrun!');
@@ -220,7 +220,7 @@ ID: your id.
         else{
             console.log('youre hillrunning for someone!');
             alert('you\'re hillrunning for someone')
-        }
+        }*/
     });
 
 //---------what to do when someone accepted a quest-----------//
