@@ -110,9 +110,10 @@ io.on('connection', (client) => {
                             if (error) {
                                 console.log("app.js FAILED TO FIND REQUESTER AND SEND HIM/HER EMAIL CONFIRMATION FOR ACCEPTING");
                             } else {
-                                let subjectRequester = "You quest has been accepted";
-                                let textRequester = `You quest has been accepted.\n
+                                let subjectRequester = "Your quest has been accepted";
+                                let textRequester = `Your quest has been accepted.\n
 		                      		Details:\n
+                                    description: ${foundQuest.description}\n
 		                      		Accepted by ${hillRunner.name}\n
 		                      		Reward to be paid ${foundQuest.reward}\n
 		                      		Accepted at ${foundQuest.updatedAt}\n
@@ -121,8 +122,9 @@ io.on('connection', (client) => {
 		                      		`
                                 sendEmail(requester.email, subjectRequester, textRequester);
 
-                                let subjectHillRunner = "You have accepted a quest";
-                                let textHillRunner = `You have accepted a quest from ${requester.name}.\n
+                                let subjectHillRunner = "Your have accepted a quest";
+                                let textHillRunner = `Your have accepted a quest from ${requester.name}.\n
+                                    description : ${foundQuest.description}\n
 		                      		Your reward for completion will be  ${foundQuest.reward}.\n
 		                      		You will earn 100 experience points.\n
 		                      		\n
@@ -212,8 +214,8 @@ io.on('connection', (client) => {
                             if (error) {
                                 console.log("app.js FAILED TO FIND REQUESTER AND SEND HIM/HER EMAIL CONFIRMATION");
                             } else {
-                                let subjectRequester = "You quest has been completed";
-                                let textRequester = `You quest has been completed.\n
+                                let subjectRequester = "Your quest has been completed";
+                                let textRequester = `Your quest has been completed.\n
 		                      		Details\n
 		                      		Fulfiled by ${hillRunner.name}\n
 		                      		Reward paid ${quest.reward}\n
