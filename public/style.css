@@ -4,7 +4,8 @@ body
     margin: 0;
     padding: 0;
 
-    background-color: #aac4d1;
+  
+  background: url(/img/bg-pattern.png), linear-gradient(to left, #f6d366, #1b7dec);
 }
 
 html
@@ -12,19 +13,18 @@ html
     height: 100%;
 }
 
-.bg-primary
+/*.bg-primary
 {
-    color:  black;
-    background: -webkit-linear-gradient(to left, #aac4d1 , #ebc137);
-  background: linear-gradient(to left, #aac4d1, #ebc137);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+   background: #fdcc52;
+  background: -webkit-linear-gradient(#fdcc52, #fdc539);
+  background: linear-gradient(#fdcc52, #fdc539);
+  
 
-   /*background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
+   background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
   background: linear-gradient(to left, #7b4397, #dc2430);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
-}
+  -webkit-text-fill-color: transparent; 
+}*/
 
 #phoneContainer
 {
@@ -52,9 +52,15 @@ html
 {
     overflow-y: scroll;
 
-    height: 200px;
 
+#tablestyle{
+	/*background: rgba(255,255,255,0.7);
+	 overflow-y: scroll;
+   	 height: 100px;*/
+
+    height: 200px;
     background: rgba(255, 255, 255, .7);
+
 }
 
 
@@ -64,11 +70,16 @@ thead{
     width: 300px;
 }*/
 
-
 /*tbody > tr {
+>>>>>>> 199ba45248d8f0136d5f3f0b4c005331ee0314cf
     cursor: pointer;
 }
 
 .result{
     margin-top:20px;
+<<<<<<< HEAD
+}
+
+=======
 }*/
+
