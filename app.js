@@ -156,7 +156,7 @@ io.on('connection', (client) => {
 
                         User.findByIdAndUpdate(savedQuest.requester, {
                             $push: {
-                                quests: createdQuest._id,
+                                quests: savedQuest,
                             },
                         }, function(error, updatedPlayer) {
                         	console.log(updatedPlayer);
