@@ -133,10 +133,11 @@ ID: your id.
             'requester':ID,
 
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
-            'address':$('input$address').val()
+            'address':$('input#address').val()
 
 
         };
+        console.log('inserting questobject')
         socket.emit('assign_quest',questObject);
     });
 
