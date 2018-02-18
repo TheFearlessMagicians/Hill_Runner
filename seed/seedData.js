@@ -11,6 +11,7 @@ let usersList = [{
         level: 1,
 		moneyEarned: 0,
 		experience: 0,
+        state:'none'
     },
     {
         name: "Wilson Jusuf",
@@ -22,6 +23,7 @@ let usersList = [{
         level: 1,
 		moneyEarned: 0,
 		experience: 0,
+        state:'none'
     },
 ];
 module.exports = usersList;

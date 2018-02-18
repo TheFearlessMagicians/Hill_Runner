@@ -84,8 +84,14 @@ io.on('connection', (client) => {
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
+
+
+        //CANCER STAGE 5
         object.hillrunner =mongoose.Types.ObjectId(object.hillrunner);
         object.id = mongoose.Types.ObjectId(object.id);
+        //CANCER
+
+
         Quest.findByIdAndUpdate(object.id, {
             state: "accepted",
             hillrunner: object.hillrunner
@@ -94,8 +100,9 @@ io.on('connection', (client) => {
                 console.log(`app.js: ACCEPT IN FINDANDUPDATE FOR ${object.id} FAILED.`)
             } else {
                 //2. update map for other users:
-                User.findById({ id: object.hillrunner /* TODO: Find the user's ID*/ }, {}, function(error, hillRunner) {
+                User.findById( object.hillrunner /* TODO: Find the user's ID*/ , function(error, hillRunner) {
                     if (error) {
+                        console.log(error)
                         console.log("app.js FAILED TO FIND HILL RUNNER AND SEND HIM/HER EMAIL CONFIRMATION FOR ACCEPTING");
                     } else {
                         User.findById(foundQuest.requester, function(error, requester) {
@@ -178,6 +185,9 @@ io.on('connection', (client) => {
 
 
     client.on('complete_quest', (quest) => {
+    	quest.requester = mongoose.Types.ObjectId(quest.requester);
+    	quest.hillRunner = mongoose.Types.ObjectId(quest.hillRunner);
+
         console.log(`quest ${quest.name} completed.`);
         //1. Update completion in quest collection
         Quest.findAndUpdate({ id: quest._id }, {
