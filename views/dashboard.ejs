@@ -196,7 +196,7 @@ ID: your id.
     });
 
     //----------------When YOU accept a quest----------------//:
-    $('tbody#quests > div#dialog >button').on('click',function(event){
+    $(' div#dialog >button').on('click',function(event){
     	console.log(event.currentTarget.id);
     	questId = event.currentTarget.id;
     	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
