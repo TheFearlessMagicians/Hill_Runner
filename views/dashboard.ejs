@@ -97,6 +97,7 @@
             function addToQuestTable(quest){
 
                 console.log(`adding ${quest.name} to tbody.`);
+                console.log(`keys: ${Object.keys(quest)}`)
             	 $(`tbody#quests`).append(`
         	<tr id ="${quest._id}">
 	        	<td>${quest.name}</td>
@@ -181,7 +182,7 @@ ID: your id.
     $('input#submitQuest').on('click',function(event){
         questObject= {
             'name': $('input#name').val(),
-            'description':$('input#description').val(),
+            'description':$('textarea#description').val(),
             'reward':$('input#reward').val(),
             'requester':ID,
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
