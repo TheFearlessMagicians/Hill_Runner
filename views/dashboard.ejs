@@ -88,6 +88,22 @@
             <script>
             var ID = "<%- ID %>";
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
+            function addToQuestTable(quest){
+            	 $(`tbody#quests`).append(`
+        	<tr id ="${quest.id}">
+	        	<td>${quest.name}</td>
+	       		<td> ${quest.reward}</td>
+	       		<td> ${quest.address}</td>
+	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
+  						<p>${quest.description}</p>
+  						<button id = ${quest.id}> Accept </button>
+				</div>
+       		<tr>`);
+            	};
+            	QUESTS.forEach((quest)=>{
+            		  addToQuestTable(quest);
+            	})
+          
             </script>
 
 			<script>
@@ -171,16 +187,7 @@ ID: your id.
 //---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
 
-        $(`tbody#quests`).append(`
-        	<tr id ="${quest.id}">
-	        	<td>${quest.name}</td>
-	       		<td> ${quest.reward}</td>
-	       		<td> ${quest.address}</td>
-	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
-  						<p>${quest.description}</p>
-  						<button id = ${quest.id}> Accept </button>
-				</div>
-       		<tr>`);
+       addToQuestTable(quest);
 
     });
 
