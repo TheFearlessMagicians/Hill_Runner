@@ -65,7 +65,7 @@
 			<!-- Quest Table -->
 
 			<h2> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small> - click on quest for details</small><h2>
-			<table class="table table-hover" >
+			<table class="table table-hover" style= "background: rgba(255,255,255,0.7);">
 			      <thead>
 			        <tr>
 			          <th>Quest Name</th>
@@ -141,7 +141,7 @@ ID: your id.
     });
 
     //----------------When YOU accept a quest----------------//:
-    $('ul#quests > li').on('click',function(event){
+    $('tbody#quests > div#dialog >button').on('click',function(event){
     	console.log(event.currentTarget.id);
     	questId = event.currentTarget.id;
     	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
@@ -167,6 +167,7 @@ ID: your id.
 	       		<td> ${quest.address}</td>
 	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
   						<p>${quest.description}</p>
+  						<button id = ${quest.id}> Accept </button>
 				</div>
        		<tr>`);
 
