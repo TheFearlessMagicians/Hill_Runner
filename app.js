@@ -64,21 +64,26 @@ app.set('isLocal', true);
 console.log('Serving on local host')
 
 
+
 //SOCKET CODE:
+io.listen(server);
 io.on('connection',(client)=>{
           console.log('client connected');
           //******************************Events for everyone ***************************//
           //set uniquely identifying username (user's  id). This is for referring the socket to a user.
           client.on('add_username',(username)=>{
-              if (!io.sockets.sockets.map((user)=>{
+              console.log('trying to add username '+username);
+              console.log('connected users: ')
+              console.log(Object.keys(io.sockets.connected))
+              /*if (!io.sockets.connected.map((user)=>{
                   return user.username;
-              }).includes(username)){
-                    client.username = username;
+             }).includes(username)){
+                */    client.username = username;
                     client.emit('username_added',{'status':'ok'});
-                }
+                /*}
                 else{
                     client.emit('username_added',{'status':'declined'});
-                }
+                }*/
           });
 
 
@@ -159,7 +164,8 @@ io.on('connection',(client)=>{
 
 
                       //4. send completion confirmation event to quest's hillrunner's socket..
-                      io.sockets.sockets[io.sockets.sockets.map(function(sockets){
+                      //TODO . Update socket LATER.
+                      /*io.sockets.connected[io.sockets.connected.map(function(sockets){
                           return sockets.username;
                       }).indexOf(quest.hillrunner)].emit('quest_completed',quest);//emit to the hillrunner, and hillrunner can update exp, earned money, in their own view.
                   }
