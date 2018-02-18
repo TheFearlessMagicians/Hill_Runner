@@ -5,6 +5,7 @@
 	 <meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -14,19 +15,19 @@
       <script src = "/gmapsStyle.js"></script>
 	 <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
-<body class="bg-primary">
+<body >
 	<div class = "container" id = "phoneContainer">
 
 		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
 			<script src= "../public/script/JSX.js"></script>-->
-			<div class = "container" style= "background-color: #006699; width:100%">
-	 			<h2 id="level">Level: </h1>
+			<div class = "container" style= "/*background-color: #006699;*/ width:100%; font-family:Raleway; color: white">
+				<h1 id="name"><strong>Name</strong></h1>
+	 			<h2 id="level">Level: </h2>
 				<h2 id="experience">Exp: </h2>
-                <h1 id="name">Name</h3>
-				  <!-- Trigger the modal with a button -->
-				  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
+                				  <!-- Trigger the modal with a button -->
+				  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
 			 </div>
 			 <div class= "container" id= "phone" style= "width:100%">
 			  <!-- Modal -->
@@ -69,7 +70,8 @@
 
 			<!-- Quest Table -->
 
-			<h1> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small>  click on quest for details</small></h1>
+			<h1 style= "color: white;"> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small style= "color: space-grey;"> click on quest for details</small></h1>
+			
 			<table class="table" id= "tablestyle">
 			      <thead>
 			        <tr>
@@ -107,9 +109,9 @@
                 </tr>
        		`);
             $('div#dialogContainer').append(`
-                <div id="dialog" class="${quest._id}" title="Basic dialog">
+                <div id="dialog" class="${quest._id}" title="Quest Description">
                         <p>${quest.description}</p>
-                        <button id = ${quest._id}> Accept </button>
+                        <button class="btn btn-default" id = ${quest._id} > Accept </button>
                 </div>`);
             	};
             function changeUserStat(mode,level,exp){
