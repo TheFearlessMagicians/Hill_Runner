@@ -138,6 +138,7 @@ io.on('connection', (client) => {
         Quest.create(quest, function(error, createdQuest) {
             if (error) {
                 console.log("app.js: ERROR CREATING QUEST")
+                console.log(error);
             } else {
                 console.log(`created a new quest called: ${quest.name}`);
                 //2. Update user db to add this new quest:
@@ -149,6 +150,13 @@ io.on('connection', (client) => {
                     if (error) {
                         console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
                     } else {
+                        createdQuest.save(function (error, savedQuest){
+                            if (error){
+                                console.log("app.js ERROR SAVING QUEST");
+                            } else {
+                                ;
+                            }
+                        });
                         //3. update map for other users:
                         io.emit('user_assigned_quest', quest);
                     }
