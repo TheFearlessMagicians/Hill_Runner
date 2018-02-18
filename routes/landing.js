@@ -11,7 +11,10 @@ let gmapsCredential = require('../creds/gmaps_creds');
 
 router.get('/', function(req, res) {
 	User.find({}, '_id', function(error,foundUsers){
-		res.render("landing",{
+		if (error){
+			console.log("landing.js: FAILED TO FIND USERS")
+		}
+		res.render("index",{
 			ID1: foundUsers[0]._id,
 			ID2: foundUsers[1]._id,
 		});
@@ -25,8 +28,13 @@ router.get('/:id', function(req,res){
 			res.render('404', { status: 404, url: req.url });
 		} else {
             Quest.find({},function(error,foundQuests){
+<<<<<<< HEAD
                 res.render('dashboard',{
     				USER: foundUser,
+=======
+                res.render('dashboard.ejs',{
+    				user: foundUser,
+>>>>>>> e8906a0b9951777a21bab7e954d886224180500c
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
                     QUESTS:foundQuests

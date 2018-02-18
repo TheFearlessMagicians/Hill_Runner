@@ -42,7 +42,9 @@ let methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
 //Route configuration
-app.use('/public', express.static(__dirname + '/public'));
+// app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
+
 app.use(require('./routes/landing'));
 
 //App settings
@@ -221,7 +223,6 @@ io.on('connection', (client) => {
                         });
                     }
                 });
-
             }
         });
         //TODO : find a way to get the socket from the id, and emit 'quest_completed to it
