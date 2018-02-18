@@ -28,8 +28,11 @@ router.get('/:id', function(req,res){
 			res.render('404', { status: 404, url: req.url });
 		} else {
             Quest.find({},function(error,foundQuests){
-                res.render('dashboard.ejs',{
-    				user: foundUser,
+
+                res.render('dashboard',{
+    				USER: foundUser,
+
+
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
                     QUESTS:foundQuests

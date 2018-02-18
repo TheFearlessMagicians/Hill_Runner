@@ -16,14 +16,15 @@
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
-		
+
 		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
 			<script src= "../public/script/JSX.js"></script>-->
 			<div class = "container" style= "background-color: #006699; width:100%">
-	 			<h1>Level: </h1>
-				<h2>Exp: </h2>
+	 			<h2 id="level">Level: </h1>
+				<h2 id="experience">Exp: </h2>
+                <h1 id="name">Name</h3>
 				  <!-- Trigger the modal with a button -->
 				  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
 			 </div>
@@ -86,7 +87,9 @@
                 </div>
             </div>
             <script>
+            //Initialisation //
             var ID = "<%- ID %>";
+            var USER = <%- JSON.stringify(USER) %>;
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
             function addToQuestTable(quest){
             	 $(`tbody#quests`).append(`
@@ -102,8 +105,11 @@
             	};
             	QUESTS.forEach((quest)=>{
             		  addToQuestTable(quest);
-            	})
-          
+            	});
+                $('h1#name').html(USER.name);
+                $('h2#level').html(`Level ${USER.level}`);
+                $('h2#experience').html(`EXP: ${USER.experience}`);
+
             </script>
 
 			<script>
