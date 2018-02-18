@@ -64,7 +64,7 @@
 			    </div>
 			  </div>
 
-			
+
 
 			<!-- Quest Table -->
 
@@ -142,8 +142,9 @@ ID: your id.
             'reward':$('input#reward').val(),
             'requester':ID,
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
-            'address':$('input#address').val()
-
+            'address':$('input#address').val(),
+            'startcoordinates':[-118.444334,34.070501], //TODO: This is still hardcoded
+            'endcoordinates':[-118.449858,34.072019], //TODO: This is still hardcoded.
 
         };
         console.log('inserting questobject')
@@ -236,10 +237,11 @@ ID: your id.
 
                                                                // console.log(dog.name+' marker added.'+i)
                                                         return new google.maps.Marker({
-                                                            position: new google.maps.LatLng(quest.coordinates[1], quest.coordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
+                                                            position: new google.maps.LatLng(quest.startcoordinates[1], quest.startcoordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
                                                             label: labels[i % labels.length],
                                                            map:map,//,
-                                                           icon:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                           icon:{url:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                                    scaledSize: new google.maps.Size(25, 25)},
                                                            name:quest.name
                                                         });
                                                     });

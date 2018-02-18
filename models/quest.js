@@ -16,7 +16,11 @@ let questSchema = new mongoose.Schema({
 	description: String,
 	reward: Number,
 	state: String,
-	coordinates: {
+	startcoordinates: {
+		type: [Number],
+		index: '2d',
+	},
+    endcoordinates: {
 		type: [Number],
 		index: '2d',
 	},
