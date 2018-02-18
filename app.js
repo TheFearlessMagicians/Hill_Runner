@@ -131,6 +131,7 @@ io.on('connection', (client) => {
 
     //*************************Events for quest assigners***********************//
     client.on('assign_quest', (quest) => {
+    	console.log(quest);
     	console.log("Check0", quest.requester);
         quest.requester = mongoose.Types.ObjectId(quest.requester);
         console.log("Check1", quest.requester);
