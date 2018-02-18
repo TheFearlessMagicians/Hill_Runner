@@ -16,17 +16,18 @@
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
-		<div class= "container" id= "phone">
+		
 		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
 			<script src= "../public/script/JSX.js"></script>-->
-			<div class = " container" style= "background-color: #AAC4D1;">
+			<div class = "container" style= "background-color: #006699; width:100%">
 	 			<h1>Level: </h1>
 				<h2>Exp: </h2>
 				  <!-- Trigger the modal with a button -->
 				  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
 			 </div>
+			 <div class= "container" id= "phone" style= "width:100%">
 			  <!-- Modal -->
 			  <div class="modal fade" id="myModal" role="dialog">
 			    <div class="modal-dialog modal-lg">
@@ -67,9 +68,8 @@
 
 			<!-- Quest Table -->
 
-			<h1> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small>  click on quest for details</small><h1>
+			<h1> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small>  click on quest for details</small></h1>
 			<table class="table table-hover" id= "tablestyle">
-
 			      <thead>
 			        <tr>
 			          <th>Quest Name</th>
@@ -80,7 +80,7 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
-            <div class="container" id="mapcontainer"style="height:30%;">
+            <div class="container" id="mapcontainer" style="height:30%; right: 20px">
                 <div id="map" style="height: 100%">
 
                 </div>
@@ -99,7 +99,7 @@
 
 
 
-			<<!-- div class="container" id = "questLog">
+			<!-- div class="container" id = "questLog">
 				<ul id = "quests">
 				</ul>
 			</div> -->
