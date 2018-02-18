@@ -14,7 +14,7 @@
       <script src = "/gmapsStyle.js"></script>
 	 <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
-<body>
+<body class="bg-primary">
 	<div class = "container" id = "phoneContainer">
 
 		<!--	<div id = "gameconsole"></div>
@@ -81,6 +81,9 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
+             <div id="dialogContainer" style="visibility: hidden; height:0%; overflow:hidden;">
+
+             </div>
             <div class="container" id="mapcontainer" style="height:50%; width: 100%">
                 <div id="map" style="height: 100%">
 
@@ -92,16 +95,21 @@
             var USER = <%- JSON.stringify(USER) %>;
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
             function addToQuestTable(quest){
+
+                console.log(`adding ${quest.name} to tbody.`);
+                console.log(`keys: ${Object.keys(quest)}`)
             	 $(`tbody#quests`).append(`
-        	<tr id ="${quest.id}">
+        	<tr id ="${quest._id}">
 	        	<td>${quest.name}</td>
 	       		<td> ${quest.reward}</td>
 	       		<td> ${quest.address}</td>
-	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
-  						<p>${quest.description}</p>
-  						<button id = ${quest.id}> Accept </button>
-				</div>
-       		<tr>`);
+                </tr>
+       		`);
+            $('div#dialogContainer').append(`
+                <div id="dialog" class="${quest._id}" title="Basic dialog">
+                        <p>${quest.description}</p>
+                        <button id = ${quest._id}> Accept </button>
+                </div>`);
             	};
             function changeUserStat(mode,level,exp){
             if (mode=='add'){
@@ -127,7 +135,8 @@
 
 			<script>
 				$(`tbody#quests > tr`).on(`click`, (evt)=>{
-					$( `div#dialog.${evt.currentTarget.id}` ).dialog();
+                    console.log(`clicked tr#${evt.currentTarget.id}`)
+					$( `div#dialog.${evt.currentTarget.id}` ).dialog(/*'open'*/);
 				});
 		 	 </script>
 
@@ -173,7 +182,7 @@ ID: your id.
     $('input#submitQuest').on('click',function(event){
         questObject= {
             'name': $('input#name').val(),
-            'description':$('input#description').val(),
+            'description':$('textarea#description').val(),
             'reward':$('input#reward').val(),
             'requester':ID,
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
@@ -187,7 +196,7 @@ ID: your id.
     });
 
     //----------------When YOU accept a quest----------------//:
-    $('tbody#quests > div#dialog >button').on('click',function(event){
+    $(' div#dialog >button').on('click',function(event){
     	console.log(event.currentTarget.id);
     	questId = event.currentTarget.id;
     	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});

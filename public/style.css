@@ -1,46 +1,90 @@
-body {
+body
+{
     min-height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #AAC4D1;
+
+    background-color: #aac4d1;
 }
-html {
+
+html
+{
     height: 100%;
 }
 
-#phoneContainer {
-	margin: 0 auto;
-	height: 100vh;
+.bg-primary
+{
+    color:  black;
+    background: -webkit-linear-gradient(to left, #aac4d1 , #ebc137);
+  background: linear-gradient(to left, #aac4d1, #ebc137);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+   /*background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
+  background: linear-gradient(to left, #7b4397, #dc2430);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 
-#phone {
-    width:100%;
-    height:100%;
-    background-color: #EBC137; /* aesthetics as you wish */
- }
+#phoneContainer
+{
+    height: 100vh;
+    margin: 0 auto;
+}
 
-#makeQuest {
+#phone
+{
+    width: 100%;
+    height: 100%;
+
+    background-color: #ebc137;
+    /* aesthetics as you wish */
+}
+
+#makeQuest
+{
     position: absolute;
-	top: 10px;
-	right: 120px;
- }
+    top: 10px;
+    right: 120px;
+}
 
+#tablestyle
+{
+    overflow-y: scroll;
+
+<<<<<<< HEAD
 #tablestyle{
 	background: rgba(255,255,255,0.7);
 	 overflow-y: scroll;
    	 height: 100px;
+=======
+    height: 200px;
+
+    background: rgba(255, 255, 255, .7);
+>>>>>>> 199ba45248d8f0136d5f3f0b4c005331ee0314cf
 }
+
+
 /*
 tbody,
 thead{
-	width: 300px;
+    width: 300px;
 }*/
 
+<<<<<<< HEAD
  tbody > tr {
+=======
+
+/*tbody > tr {
+>>>>>>> 199ba45248d8f0136d5f3f0b4c005331ee0314cf
     cursor: pointer;
 }
 
 .result{
     margin-top:20px;
+<<<<<<< HEAD
 }
 
+=======
+}*/
+>>>>>>> 199ba45248d8f0136d5f3f0b4c005331ee0314cf
