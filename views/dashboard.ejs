@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/socket.io/socket.io.js"></script>
 	<title> Hill Runners!</title>
 	 <meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,18 +8,19 @@
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	  <link rel="stylesheet" href="/resources/demos/style.css">
+	  <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
 	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script src = "/public/gmapsStyle.js"></script>
 	 <link rel="stylesheet" type="text/css" href="../public/style.css">
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
 		<div class= "container" id= "phone">
-			<div id = "gameconsole"></div>
+		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
-			<script src= "../public/script/JSX.js"></script>
+			<script src= "../public/script/JSX.js"></script>-->
 
  			<h1>Level: </h1>
 			<h2>Exp: </h2>
@@ -45,12 +45,12 @@
 							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" id="description" required></textarea>
 
 							  <label>Reward</label>
-	                          <input type="" placeholder="Enter Name" id="reward" class="form-control" required>
+	                          <input type="number" placeholder="Enter Name" id="reward" class="form-control" required>
 
 	                          <label>Address</label>
 	                          <input type="text" placeholder="Enter Where To Meet" id="address" class="form-control" required>
 
-							  <input type = "submit" name="Submit Quest!" id= "submitQuest">
+							  <input type = "submit" name="Submit Quest!" id= "submitQuest" class="input-group input-group-lg form-control">
 						</form>
 
 			        </div>
@@ -60,11 +60,12 @@
 			      </div>
 			    </div>
 			  </div>
+
 			</div>
 
 			<!-- Quest Table -->
 
-			<h2> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small> - click on quest for details</small><h2>
+			<h2> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small> - click on quest for details</small></h2>
 			<table class="table table-hover" style= "background: rgba(255,255,255,0.7);">
 			      <thead>
 			        <tr>
@@ -76,14 +77,22 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
+            <div class="container" id="mapcontainer"style="height:30%;">
+                <div id="map" style="height: 100%">
 
-		   
+                </div>
+            </div>
+            <script>
+            var ID = <%- ID %>
+            var QUESTS =<%- JSON.stringify(QUESTS )%>;
+            </script>
+
 			<script>
 				$(`tbody#quests > tr`).on(`click`, (evt)=>{
 					$( `div#dialog.${evt.currentTarget.id}` ).dialog();
 				});
 		 	 </script>
-		       
+
 
 
 
@@ -99,7 +108,7 @@
             </script>
             <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%- gmapsCredential %>&callback=initMap">
             </script>
-            <script src= " ../public/script/maps.js"></script>
+        <!--    <script src= " ../public/script/maps.js" ></script>-->
 
         </div>
 
@@ -108,13 +117,16 @@
 </html>
 
 <!-- socket code -->
+	<script src="/socket.io/socket.io.js"></script>
 <script>
 /*Note: socket code needs access to these global variables:
 ID: your id.
 */
-    var socket = io.connect("localhost:8000");
+
+    var socket = io.connect("http://localhost:8000");
     socket.on('connect',()=>{
                 //Bind your ID to your socket when you connect so the server knows who you are.
+        console.log(`added my username:${ID} `)
         socket.emit('add_username',ID);
 
     });
@@ -126,12 +138,12 @@ ID: your id.
             'description':$('input#description').val(),
             'reward':$('input#reward').val(),
             'requester':ID,
-
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
-            'address':$('input$address').val()
+            'address':$('input#address').val()
 
 
         };
+        console.log('inserting questobject')
         socket.emit('assign_quest',questObject);
     });
 
@@ -155,7 +167,6 @@ ID: your id.
 //---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
 
-        //What to do when someone made a new quest.
         $(`tbody#quests`).append(`
         	<tr id ="${quest.id}">
 	        	<td>${quest.name}</td>
@@ -173,4 +184,85 @@ ID: your id.
     socket.on('quest_completed',(quest)=>{
 
     });
+</script>
+
+<script>
+
+                          function addDummyQUESTS(centerLatLng) {
+                              //TODO
+                              let locations = [];
+                              for (let i = 0; i < 20; i++)
+                                  locations.push({
+                                      'lat': centerLatLng['lat'] + Math.random() * 0.05,
+                                      'lng': centerLatLng['lng'] + Math.random() * 0.05
+                                  });
+                              return locations;
+                          }
+                        //Called when gmaps loads:
+                          function initMap() {
+                              //GEO LOCATION
+                              //var infoWindow = new google.maps.InfoWindow;
+
+                              // Try HTML5 geolocation.
+                              console.log('initmap called.')
+                            //  if (navigator.geolocation) {
+                  //                navigator.geolocation.getCurrentPosition(function(position) {
+
+                                    //Hardcoded UCLA position:
+                                      var pos = {
+                                          lat:  34.068921,//position.coords.latitude
+                                          lng:-118.445181,//position.coords.longitude
+                                      };
+
+
+                                      var map = new google.maps.Map(document.getElementById('map'), {
+                                          zoom: 13,
+                                          center: pos,
+                                          styles: gmapsStyle
+                                      });
+                                      console.log('creating a map here.');
+                                      // Create an array of alphabetical characters used to label the markers.
+                                      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                                      // -------------------REAL CODE FOR MAP UPDATING ----------------------------------//
+                            //          socket.on('QUESTS_NEAR_USER', function(QUESTS) {
+                            //TODO: We need a QUESTS object for initialisation.
+                                                //console.log('QUESTS near user response received.');
+                                                console.log(`no of QUESTS queried: ${QUESTS.length}`)
+                                                   var markers= QUESTS.map(function(quest, i) {
+
+                                                               // console.log(dog.name+' marker added.'+i)
+                                                        return new google.maps.Marker({
+                                                            position: new google.maps.LatLng(quest.coordinates[1], quest.coordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
+                                                            label: labels[i % labels.length],
+                                                           map:map,//,
+                                                           icon:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                           name:quest.name
+                                                        });
+                                                    });
+
+
+                                                    var infowindows=[];
+                                                         // Add a marker clusterer to manage the markers.
+
+                                                         markers.forEach((marker,i)=>{
+                                                                   console.log('putting marker '+i)
+                                                                 infowindows.push(  new google.maps.InfoWindow({
+                                                                                content:marker.name//  getdogPopupString(marker.dogName,'public/QUESTS/samoyed-puppy.jpg',marker.dogUrl,'/user/'+marker.ownerUrl)
+                                                                      }));
+                                                                      google.maps.event.addListener(marker, 'click', function() {
+                                                                                infowindows[i].open(map,this);
+                                                         });
+                                               });
+                                                      var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+                                    //  });
+                                                //    map.setCenter(pos);
+                                                google.maps.event.addListener(map, 'tilesloaded', function(){
+                                                    //If you want to create a loading screen for tilesloaded, make it finish here.
+                                                    // $(`#loading`).css("display", "none");
+
+                                                });
+
+
+                                  }
 </script>

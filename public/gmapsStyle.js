@@ -1,139 +1,32 @@
-gmapsStyle=[
+gmapsStyle=
+[
     {
-        "featureType": "administrative",
-        "elementType": "all",
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
         "stylers": [
             {
-                "lightness": 100
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#000000"
-            },
-            {
-                "weight": "0.01"
+                "color": "#00ffb2"
             }
         ]
     },
     {
-        "featureType": "landscape",
-        "elementType": "all",
+        "featureType": "poi.school",
+        "elementType": "geometry.fill",
         "stylers": [
             {
-                "hue": "#ffffff"
-            },
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 100
-            },
-            {
-                "visibility": "on"
+                "color": "#ff4d40"
             }
         ]
     },
     {
-        "featureType": "poi",
-        "elementType": "all",
+        "featureType": "road.local",
+        "elementType": "labels.icon",
         "stylers": [
-            {
-                "hue": "#ffffff"
-            },
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 100
-            },
             {
                 "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "hue": "#000000"
             },
             {
-                "saturation": -100
-            },
-            {
-                "lightness": -100
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "hue": "#ffffff"
-            },
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 100
-            },
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "hue": "#000000"
-            },
-            {
-                "lightness": -100
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "hue": "#ffffff"
-            },
-            {
-                "lightness": 100
-            },
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "hue": "#ffffff"
-            },
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 100
-            },
-            {
-                "visibility": "on"
+                "color": "#ff0000"
             }
         ]
     }

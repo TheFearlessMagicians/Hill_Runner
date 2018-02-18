@@ -59,20 +59,23 @@ app.set('isLocal', true);
 console.log('Serving on local host')
 
 
+
 //SOCKET CODE:
+io.attach(server);
 io.on('connection', (client) => {
     console.log('client connected');
     //******************************Events for everyone ***************************//
     //set uniquely identifying username (user's  id). This is for referring the socket to a user.
     client.on('add_username', (username) => {
-        if (!io.sockets.sockets.map((user) => {
+        /*if (!io.sockets.sockets.map((user) => {
                 return user.username;
             }).includes(username)) {
-            client.username = username;
-            client.emit('username_added', { 'status': 'ok' });
-        } else {
+        */
+        client.username = username;
+        client.emit('username_added', { 'status': 'ok' });
+        /*} else {
             client.emit('username_added', { 'status': 'declined' });
-        }
+        }*/
     });
 
 
@@ -81,7 +84,7 @@ io.on('connection', (client) => {
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
-        Quest.findByIdAndUpdate(object.id , {
+        Quest.findByIdAndUpdate(object.id, {
             state: "accepted",
             hillrunner: object.hillrunner
         }, function(error, foundQuest) {
@@ -128,27 +131,42 @@ io.on('connection', (client) => {
 
     //*************************Events for quest assigners***********************//
     client.on('assign_quest', (quest) => {
+    	console.log(quest);
+    	console.log("Check0", quest.requester);
+        quest.requester = mongoose.Types.ObjectId(quest.requester);
+        console.log("Check1", quest.requester);
         /*
         NOTE. MAKE SURE THAT THE OBJECT PASSED IS IN THE
         CORRECT FORMAT
         */
         //1. Add new quest to DB's quest collection:
         Quest.create(quest, function(error, createdQuest) {
+
             if (error) {
                 console.log("app.js: ERROR CREATING QUEST")
             } else {
                 console.log(`created a new quest called: ${quest.name}`);
                 //2. Update user db to add this new quest:
-                User.findByIdAndUpdate(quest.requester, {
-                    $push: {
-                        quests: quest._id,
-                    },
-                }, function(error, updatedPlayer) {
+                createdQuest.save(function(error, savedQuest) {
                     if (error) {
-                        console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
+                        console.log("app.js ERROR SAVING QUEST");
                     } else {
-                        //3. update map for other users:
-                        io.emit('user_assigned_quest', quest);
+                    	console.log("Requester: " ,savedQuest.requester)
+                    	//attempting to find user
+
+                        User.findByIdAndUpdate(savedQuest.requester, {
+                            $push: {
+                                quests: createdQuest._id,
+                            },
+                        }, function(error, updatedPlayer) {
+                        	console.log(updatedPlayer);
+                            if (error) {
+                                console.log("app.js: ERROR UPDATING PLAYER WITH QUEST");
+                            } else {
+                                //3. update map for other users:
+                                io.emit('user_assigned_quest', quest);
+                            }
+                        });
                     }
                 });
             }
@@ -206,8 +224,9 @@ io.on('connection', (client) => {
 
             }
         });
-        io.sockets.sockets[io.sockets.sockets.map(function(sockets) {
+        //TODO : find a way to get the socket from the id, and emit 'quest_completed to it
+        /*    io.sockets.sockets[io.sockets.sockets.map(function(sockets) {
             return sockets.username;
-        }).indexOf(quest.hillrunner)].emit('quest_completed', quest); //emit to the hillrunner, and hillrunner can update exp, earned money, in their own view.
+        }).indexOf(quest.hillrunner)].emit('quest_completed', quest); */ //emit to the hillrunner, and hillrunner can update exp, earned money, in their own view.
     });
 });
