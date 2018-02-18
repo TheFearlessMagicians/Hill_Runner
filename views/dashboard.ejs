@@ -45,7 +45,9 @@
 							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" id="description" required></textarea>
 
 							  <label>Reward</label>
+
 	                          <input type="number" placeholder="Enter Reward" id="reward" class="form-control" required>
+
 
 	                          <label>Address</label>
 	                          <input type="text" placeholder="Enter Where To Meet" id="address" class="form-control" required>
@@ -60,12 +62,14 @@
 			      </div>
 			    </div>
 			  </div>
+
 			
 
 			<!-- Quest Table -->
 
 			<h1> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small>  click on quest for details</small><h1>
 			<table class="table table-hover" id= "tablestyle">
+
 			      <thead>
 			        <tr>
 			          <th>Quest Name</th>
@@ -76,8 +80,14 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
+            <div class="container" id="mapcontainer"style="height:30%;">
+                <div id="map" style="height: 100%">
+
+                </div>
+            </div>
             <script>
             var ID = <%- ID %>
+            var QUESTS =<%- JSON.stringify(QUESTS )%>;
             </script>
 
 			<script>
@@ -101,7 +111,7 @@
             </script>
             <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%- gmapsCredential %>&callback=initMap">
             </script>
-            <script src= " ../public/script/maps.js"></script>
+        <!--    <script src= " ../public/script/maps.js" ></script>-->
 
         </div>
 
@@ -177,4 +187,85 @@ ID: your id.
     socket.on('quest_completed',(quest)=>{
 
     });
+</script>
+
+<script>
+
+                          function addDummyQUESTS(centerLatLng) {
+                              //TODO
+                              let locations = [];
+                              for (let i = 0; i < 20; i++)
+                                  locations.push({
+                                      'lat': centerLatLng['lat'] + Math.random() * 0.05,
+                                      'lng': centerLatLng['lng'] + Math.random() * 0.05
+                                  });
+                              return locations;
+                          }
+                        //Called when gmaps loads:
+                          function initMap() {
+                              //GEO LOCATION
+                              //var infoWindow = new google.maps.InfoWindow;
+
+                              // Try HTML5 geolocation.
+                              console.log('initmap called.')
+                            //  if (navigator.geolocation) {
+                  //                navigator.geolocation.getCurrentPosition(function(position) {
+
+                                    //Hardcoded UCLA position:
+                                      var pos = {
+                                          lat:  34.068921,//position.coords.latitude
+                                          lng:-118.445181,//position.coords.longitude
+                                      };
+
+
+                                      var map = new google.maps.Map(document.getElementById('map'), {
+                                          zoom: 13,
+                                          center: pos,
+                                          styles: gmapsStyle
+                                      });
+                                      console.log('creating a map here.');
+                                      // Create an array of alphabetical characters used to label the markers.
+                                      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                                      // -------------------REAL CODE FOR MAP UPDATING ----------------------------------//
+                            //          socket.on('QUESTS_NEAR_USER', function(QUESTS) {
+                            //TODO: We need a QUESTS object for initialisation.
+                                                //console.log('QUESTS near user response received.');
+                                                console.log(`no of QUESTS queried: ${QUESTS.length}`)
+                                                   var markers= QUESTS.map(function(quest, i) {
+
+                                                               // console.log(dog.name+' marker added.'+i)
+                                                        return new google.maps.Marker({
+                                                            position: new google.maps.LatLng(quest.coordinates[1], quest.coordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
+                                                            label: labels[i % labels.length],
+                                                           map:map,//,
+                                                           icon:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                           name:quest.name
+                                                        });
+                                                    });
+
+
+                                                    var infowindows=[];
+                                                         // Add a marker clusterer to manage the markers.
+
+                                                         markers.forEach((marker,i)=>{
+                                                                   console.log('putting marker '+i)
+                                                                 infowindows.push(  new google.maps.InfoWindow({
+                                                                                content:marker.name//  getdogPopupString(marker.dogName,'public/QUESTS/samoyed-puppy.jpg',marker.dogUrl,'/user/'+marker.ownerUrl)
+                                                                      }));
+                                                                      google.maps.event.addListener(marker, 'click', function() {
+                                                                                infowindows[i].open(map,this);
+                                                         });
+                                               });
+                                                      var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+                                    //  });
+                                                //    map.setCenter(pos);
+                                                google.maps.event.addListener(map, 'tilesloaded', function(){
+                                                    //If you want to create a loading screen for tilesloaded, make it finish here.
+                                                    // $(`#loading`).css("display", "none");
+
+                                                });
+
+
+                                  }
 </script>
