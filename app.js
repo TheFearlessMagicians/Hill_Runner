@@ -84,8 +84,14 @@ io.on('connection', (client) => {
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
+
+        
+        //CANCER STAGE 5
         object.hillrunner =mongoose.Types.ObjectId(object.hillrunner);
         object.id = mongoose.Types.ObjectId(object.id);
+        //CANCER 
+
+
         Quest.findByIdAndUpdate(object.id, {
             state: "accepted",
             hillrunner: object.hillrunner
@@ -178,6 +184,9 @@ io.on('connection', (client) => {
 
 
     client.on('complete_quest', (quest) => {
+    	quest.requester = mongoose.Types.ObjectId(quest.requester);
+    	quest.hillRunner = mongoose.Types.ObjectId(quest.hillRunner);
+
         console.log(`quest ${quest.name} completed.`);
         //1. Update completion in quest collection
         Quest.findAndUpdate({ id: quest._id }, {
