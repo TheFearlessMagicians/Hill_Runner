@@ -19,9 +19,9 @@ let seed = require("./seed/seed");
 let seeData = require("./seed/seedData")
 seed();
 //Sending data to new users.
-// seeData.forEach(function(user){
-// 	sendEmail(user.email,"Welcom to Hill Runner","Aw shucks! Thanks for signing up :) \n Regards, \n The Hill Runner Team");
-// });
+seeData.forEach(function(user){
+	sendEmail(user.email,"Welcom to Hill Runner","Aw shucks! Thanks for signing up :) \n Regards, \n The Hill Runner Team");
+});
 
 //Passport JS setup
 
