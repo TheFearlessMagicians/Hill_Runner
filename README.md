@@ -1,6 +1,6 @@
 # Hill_Runner
 Hillrunner gamifies doing errands for students living on the Hill, to better the community.
-
+[https://github.com/TheFearlessMagicians/Hill_Runner/blob/master/FrontPage.png]
 # Why this app?
 We aim to bridge two groups people: people who are strapped for cash and those that needs help. We make outsourcing help easy, and also make it fun to run errands, making helping others enjoyable.
 
