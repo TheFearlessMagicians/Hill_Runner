@@ -29,13 +29,12 @@ html {
 	background: rgba(255,255,255,0.7);
 	 overflow-y:scroll;
    	 height: 200px;
-   	 display:block;
 }
-
+/*
 tbody,
 thead{
 	width: 300px;
-}
+}*/
 
  /*tbody > tr {
     cursor: pointer;
