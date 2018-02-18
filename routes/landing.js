@@ -34,6 +34,7 @@ router.get('/:id', function(req,res){
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
                     QUESTS:foundQuests,
+                    SOCKETLINK:`${req.app.get('host')}:${req.app.get('port')}`,
     			});
             });
 

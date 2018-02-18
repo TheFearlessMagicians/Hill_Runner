@@ -71,7 +71,7 @@
 			<!-- Quest Table -->
 
 			<h1 style= "color: white;"> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small style= "color: space-grey;"> click on quest for details</small></h1>
-			
+
 			<table class="table" id= "tablestyle">
 			      <thead>
 			        <tr>
@@ -173,7 +173,7 @@
 ID: your id.
 */
 
-    var socket = io.connect("http://localhost:8000");
+    var socket = io.connect("<%-SOCKETLINK %>");
     socket.on('connect',()=>{
                 //Bind your ID to your socket when you connect so the server knows who you are.
         console.log(`added my username:${ID} `)
