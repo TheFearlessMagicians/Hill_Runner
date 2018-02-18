@@ -16,41 +16,44 @@
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
-		<div class= "container" id= "phone">
+		
 		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
 			<script src= "../public/script/JSX.js"></script>-->
-
- 			<h1>Level: </h1>
-			<h2>Exp: </h2>
-			<div class="container">
-			  <!-- Trigger the modal with a button -->
-			  <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
+			<div class = "container" style= "background-color: #006699; width:100%">
+	 			<h1>Level: </h1>
+				<h2>Exp: </h2>
+				  <!-- Trigger the modal with a button -->
+				  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="makeQuest">Make Quest</button>
+			 </div>
+			 <div class= "container" id= "phone" style= "width:100%">
 			  <!-- Modal -->
 			  <div class="modal fade" id="myModal" role="dialog">
 			    <div class="modal-dialog modal-lg">
 			      <div class="modal-content">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title">Make Quest</h4>
+			          <h3 class="modal-title">Make Quest</h4>
 			        </div>
 			        <div class="modal-body">
 
 				          <form  id="questForm">
 				          	  <label>Name</label>
-	                          <input type="text" placeholder="Enter Name" id="name" class="form-control" required>
+	                          <input type="text" placeholder="Enter Name Of Quest" id="name" class="form-control" required>
 
 	                          <label>Describe your quest </label>
 							  <textarea placeholder="Describe Your Quest Here." rows="3" class="form-control" id="description" required></textarea>
 
 							  <label>Reward</label>
-	                          <input type="number" placeholder="Enter Name" id="reward" class="form-control" required>
+
+	                          <input type="number" placeholder="Enter Reward" id="reward" class="form-control" required>
+
 
 	                          <label>Address</label>
 	                          <input type="text" placeholder="Enter Where To Meet" id="address" class="form-control" required>
 
-							  <input type = "submit" name="Submit Quest!" id= "submitQuest" class="input-group input-group-lg form-control">
+							  <input type = "submit" id= "submitQuest" class="btn-md btn-primary form-control" style= "margin-top: 20px" >
 						</form>
 
 			        </div>
@@ -61,12 +64,12 @@
 			    </div>
 			  </div>
 
-			</div>
+
 
 			<!-- Quest Table -->
 
-			<h2> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small> - click on quest for details</small></h2>
-			<table class="table table-hover" style= "background: rgba(255,255,255,0.7);">
+			<h1> <i class="glyphicon glyphicon-thumbs-up"></i> Quest <small>  click on quest for details</small></h1>
+			<table class="table table-hover" id= "tablestyle">
 			      <thead>
 			        <tr>
 			          <th>Quest Name</th>
@@ -77,7 +80,7 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
-            <div class="container" id="mapcontainer"style="height:30%;">
+            <div class="container" id="mapcontainer" style="height:30%; right: 20px">
                 <div id="map" style="height: 100%">
 
                 </div>
@@ -85,6 +88,22 @@
             <script>
             var ID = "<%- ID %>";
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
+            function addToQuestTable(quest){
+            	 $(`tbody#quests`).append(`
+        	<tr id ="${quest.id}">
+	        	<td>${quest.name}</td>
+	       		<td> ${quest.reward}</td>
+	       		<td> ${quest.address}</td>
+	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
+  						<p>${quest.description}</p>
+  						<button id = ${quest.id}> Accept </button>
+				</div>
+       		<tr>`);
+            	};
+            	QUESTS.forEach((quest)=>{
+            		  addToQuestTable(quest);
+            	})
+          
             </script>
 
 			<script>
@@ -96,7 +115,7 @@
 
 
 
-			<<!-- div class="container" id = "questLog">
+			<!-- div class="container" id = "questLog">
 				<ul id = "quests">
 				</ul>
 			</div> -->
@@ -139,8 +158,9 @@ ID: your id.
             'reward':$('input#reward').val(),
             'requester':ID,
             'hillrunner':'', // Empty for now. Will be assigned later when a hillrunner accepts this quest.
-            'address':$('input#address').val()
-
+            'address':$('input#address').val(),
+            'startcoordinates':[-118.444334,34.070501], //TODO: This is still hardcoded
+            'endcoordinates':[-118.449858,34.072019], //TODO: This is still hardcoded.
 
         };
         console.log('inserting questobject')
@@ -167,16 +187,7 @@ ID: your id.
 //---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
 
-        $(`tbody#quests`).append(`
-        	<tr id ="${quest.id}">
-	        	<td>${quest.name}</td>
-	       		<td> ${quest.reward}</td>
-	       		<td> ${quest.address}</td>
-	       		 <div id="dialog" class="${quest.id}" title="Basic dialog">
-  						<p>${quest.description}</p>
-  						<button id = ${quest.id}> Accept </button>
-				</div>
-       		<tr>`);
+       addToQuestTable(quest);
 
     });
 
@@ -233,10 +244,11 @@ ID: your id.
 
                                                                // console.log(dog.name+' marker added.'+i)
                                                         return new google.maps.Marker({
-                                                            position: new google.maps.LatLng(quest.coordinates[1], quest.coordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
+                                                            position: new google.maps.LatLng(quest.startcoordinates[1], quest.startcoordinates[0]),// quest: [lng,lat]. maps: [lat,lng]
                                                             label: labels[i % labels.length],
                                                            map:map,//,
-                                                           icon:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                           icon:{url:"https://png.icons8.com/metro/1600/finish-flag.png",
+                                                                    scaledSize: new google.maps.Size(25, 25)},
                                                            name:quest.name
                                                         });
                                                     });
