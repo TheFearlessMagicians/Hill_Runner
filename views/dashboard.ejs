@@ -190,7 +190,7 @@ ID: your id.
             'address':$('input#address').val(),
             'startcoordinates':[-118.444334,34.070501], //TODO: This is still hardcoded
             'endcoordinates':[-118.449858,34.072019], //TODO: This is still hardcoded.
-
+            'state':'ready'
         };
         STATE = "quest_assigner";
         console.log('inserting questobject')
@@ -200,7 +200,7 @@ ID: your id.
 
     //----------------When YOU accept a quest----------------//:
     $(' div#dialog >button').on('click',function(event){
-        if (STATE == 'none' || STATE == 'quest_assigner'){
+        if (STATE == 'none' ){
         	console.log(event.currentTarget.id);
         	questId = event.currentTarget.id;
         	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
@@ -211,6 +211,10 @@ ID: your id.
     		});
             STATE = 'hillrunner';
         }
+        else if(STATE == 'quest_assigner'){
+            console.log('youre a quest assigner, you cannot hillrun for someone!');
+            alert('you assigned a quest for someone, you cannot hillrun!');
+        }
         else{
             console.log('youre hillrunning for someone!');
             alert('you\'re hillrunning for someone')
@@ -218,9 +222,10 @@ ID: your id.
     });
 
 //---------what to do when someone accepted a quest-----------//
-    socket.on('user_accepted_quest',(quest)=>{
+    socket.on('user_accepted_quest',(id)=>{
         // don't display that quest anymore
-         $(`tbody#quests > tr#${quest.id}`).remove();
+        console.log(`removing ${id}`)
+         $(`tbody#quests > tr#${id}`).remove();
     });
 
 //---------What to do when someone made a new quest.--------//

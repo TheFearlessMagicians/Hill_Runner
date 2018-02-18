@@ -213,7 +213,7 @@ io.on('connection', (client) => {
                             } else {
                                 let subjectRequester = "You quest has been completed";
                                 let textRequester = `You quest has been completed.\n
-		                      		Deatails\n
+		                      		Details\n
 		                      		Fulfiled by ${hillRunner.name}\n
 		                      		Reward paid ${quest.reward}\n
 		                      		Completed at ${quest.updatedAt}\n

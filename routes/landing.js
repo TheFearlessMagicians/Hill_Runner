@@ -27,7 +27,7 @@ router.get('/:id', function(req,res){
 			console.log("landing.js CANNOT FIND USER BY ID");
 			res.render('404', { status: 404, url: req.url });
 		} else {
-            Quest.find({},function(error,foundQuests){
+            Quest.find({state: "ready"},function(error,foundQuests){
 
                 res.render('dashboard',{
     				USER: foundUser,
