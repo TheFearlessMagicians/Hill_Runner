@@ -26,7 +26,7 @@ router.get('/:id', function(req,res){
 		} else {
             Quest.find({},function(error,foundQuests){
                 res.render('dashboard',{
-    				user: foundUser,
+    				USER: foundUser,
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
                     QUESTS:foundQuests
