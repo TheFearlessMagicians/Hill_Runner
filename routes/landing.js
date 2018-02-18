@@ -31,8 +31,6 @@ router.get('/:id', function(req,res){
 
                 res.render('dashboard',{
     				USER: foundUser,
-
-
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
                     QUESTS:foundQuests
