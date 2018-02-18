@@ -84,8 +84,14 @@ io.on('connection', (client) => {
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
+
+        
+        //CANCER STAGE 5
         object.hillrunner =mongoose.Types.ObjectId(object.hillrunner);
         object.id = mongoose.Types.ObjectId(object.id);
+        //CANCER 
+
+
         Quest.findByIdAndUpdate(object.id, {
             state: "accepted",
             hillrunner: object.hillrunner
@@ -105,7 +111,7 @@ io.on('connection', (client) => {
                             } else {
                                 let subjectRequester = "You quest has been accepted";
                                 let textRequester = `You quest has been accepted.\n
-		                      		Deatails\n
+		                      		Details:\n
 		                      		Accepted by ${hillRunner.name}\n
 		                      		Reward to be paid ${foundQuest.reward}\n
 		                      		Accepted at ${foundQuest.updatedAt}\n
@@ -114,9 +120,9 @@ io.on('connection', (client) => {
 		                      		`
                                 sendEmail(requester.email, subjectRequester, textRequester);
 
-                                let subjectHillRunner = "You have received a quest";
-                                let textHillRunner = `You have received a quest from ${requester.name}.\n
-		                      		Your reward for completion is ${foundQuest.reward}.\n
+                                let subjectHillRunner = "You have accepted a quest";
+                                let textHillRunner = `You have accepted a quest from ${requester.name}.\n
+		                      		Your reward for completion will be  ${foundQuest.reward}.\n
 		                      		You will earn 100 experience points.\n
 		                      		\n
 		                      		Thank-you for using Hill Runner!
@@ -179,6 +185,9 @@ io.on('connection', (client) => {
 
 
     client.on('complete_quest', (quest) => {
+    	quest.requester = mongoose.Types.ObjectId(quest.requester);
+    	quest.hillRunner = mongoose.Types.ObjectId(quest.hillRunner);
+
         console.log(`quest ${quest.name} completed.`);
         //1. Update completion in quest collection
         Quest.findAndUpdate({ id: quest._id }, {
