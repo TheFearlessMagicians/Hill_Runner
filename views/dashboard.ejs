@@ -103,12 +103,25 @@
 				</div>
        		<tr>`);
             	};
+            function changeUserStat(mode,level,exp){
+            if (mode=='add'){
+                USER.level+=level;
+                USER.experience +=exp;
+                $('h2#level').html(`Level ${USER.level}`);
+                $('h2#experience').html(`EXP: ${USER.experience}`);
+            }else if(mode=='set'){
+                $('h2#level').html(`Level ${level}`);
+                $('h2#experience').html(`EXP: ${exp}`);
+
+            }
+            }
             	QUESTS.forEach((quest)=>{
             		  addToQuestTable(quest);
             	});
                 $('h1#name').html(USER.name);
-                $('h2#level').html(`Level ${USER.level}`);
-                $('h2#experience').html(`EXP: ${USER.experience}`);
+                changeUserStat('set',USER.level,USER.experience);
+                //changeUserStat(USER.level,USER.experience);
+
 
             </script>
 
@@ -199,7 +212,7 @@ ID: your id.
 
 //-------What to do when YOU completed a quest. ------------//
     socket.on('quest_completed',(quest)=>{
-
+    changeUserStat('add',1,100); //TODO: Hardcoded.
     });
 </script>
 
