@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/socket.io/socket.io.js"></script>
 	<title> Hill Runners!</title>
 	 <meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,18 +8,19 @@
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	  <link rel="stylesheet" href="/resources/demos/style.css">
+	  <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
 	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script src = "/public/gmapsStyle.js"></script>
 	 <link rel="stylesheet" type="text/css" href="../public/style.css">
 </head>
 <body>
 	<div class = "container" id = "phoneContainer">
 		<div class= "container" id= "phone">
-			<div id = "gameconsole"></div>
+		<!--	<div id = "gameconsole"></div>
 			<script src= "http://unpkg.com/react@16.0.0/umd/react.development.js"></script>
 			<script src= "http://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
-			<script src= "../public/script/JSX.js"></script>
+			<script src= "../public/script/JSX.js"></script>-->
 
  			<h1>Level: </h1>
 			<h2>Exp: </h2>
@@ -76,14 +76,16 @@
 			      <tbody id = "quests">
 			      </tbody>
 		     </table>
+            <script>
+            var ID = <%- ID %>
+            </script>
 
-		   
 			<script>
 				$(`tbody#quests > tr`).on(`click`, (evt)=>{
 					$( `div#dialog.${evt.currentTarget.id}` ).dialog();
 				});
 		 	 </script>
-		       
+
 
 
 
@@ -108,13 +110,16 @@
 </html>
 
 <!-- socket code -->
+	<script src="/socket.io/socket.io.js"></script>
 <script>
 /*Note: socket code needs access to these global variables:
 ID: your id.
 */
-    var socket = io.connect("localhost:8000");
+
+    var socket = io.connect("http://localhost:8000");
     socket.on('connect',()=>{
                 //Bind your ID to your socket when you connect so the server knows who you are.
+        console.log(`added my username:${ID} `)
         socket.emit('add_username',ID);
 
     });
@@ -155,7 +160,6 @@ ID: your id.
 //---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
 
-        //What to do when someone made a new quest.
         $(`tbody#quests`).append(`
         	<tr id ="${quest.id}">
 	        	<td>${quest.name}</td>

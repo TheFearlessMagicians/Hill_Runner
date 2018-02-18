@@ -23,7 +23,7 @@ let seed = () => {
                                 if (error) {
                                     console.log("seed.js: FAILED TO SEED USER");
                                 } else {
-                                	console.log(createdUser);
+                                    ;
                                 }
                             });
                         });

@@ -1,5 +1,7 @@
 //Mongoose set up
 let mongoose = require("mongoose");
+//Time stamps set up
+let timestamps = require('mongoose-timestamp');
 
 let questSchema = new mongoose.Schema({
 	name: String,
@@ -19,10 +21,7 @@ let questSchema = new mongoose.Schema({
 		index: '2d',
 	},
 	address: String,
-	created: {
-		type: Date,
-		default: Date.now,
-	},
+	timeCompleted: String,
 });
-
+questSchema.plugin(timestamps);
 module.exports = mongoose.model("Quest", questSchema);
