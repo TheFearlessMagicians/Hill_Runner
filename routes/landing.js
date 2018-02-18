@@ -33,7 +33,7 @@ router.get('/:id', function(req,res){
     				USER: foundUser,
                     ID:req.params.id,
                     'gmapsCredential':gmapsCredential,
-                    QUESTS:foundQuests
+                    QUESTS:foundQuests,
     			});
             });
 

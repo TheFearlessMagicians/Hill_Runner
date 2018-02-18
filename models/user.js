@@ -1,12 +1,12 @@
 //Mongoose set up
 let mongoose = require("mongoose");
 
-//Passport set up 
+//Passport set up
 
 let userSchema = new mongoose.Schema({
 	name: String,
 	email: String,
-	username: String, 
+	username: String,
 	password: String,
 	address: String,
 	level: Number,
@@ -24,5 +24,6 @@ let userSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+    state:String,
 });
 module.exports = mongoose.model("User", userSchema);

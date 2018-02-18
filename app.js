@@ -85,11 +85,11 @@ io.on('connection', (client) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
         // 1. update quest object's state field:
 
-        
+
         //CANCER STAGE 5
         object.hillrunner =mongoose.Types.ObjectId(object.hillrunner);
         object.id = mongoose.Types.ObjectId(object.id);
-        //CANCER 
+        //CANCER
 
 
         Quest.findByIdAndUpdate(object.id, {

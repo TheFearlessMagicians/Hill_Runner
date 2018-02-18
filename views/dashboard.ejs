@@ -94,6 +94,7 @@
             var ID = "<%- ID %>";
             var USER = <%- JSON.stringify(USER) %>;
             var QUESTS =<%- JSON.stringify(QUESTS )%>;
+            var STATE = USER.state;
             function addToQuestTable(quest){
 
                 console.log(`adding ${quest.name} to tbody.`);
@@ -178,7 +179,7 @@ ID: your id.
 
     });
 
-    //---------When a new quest is assigned-------------//:
+    //---------When you assign a quest-------------//:
     $('input#submitQuest').on('click',function(event){
         questObject= {
             'name': $('input#name').val(),
@@ -191,19 +192,29 @@ ID: your id.
             'endcoordinates':[-118.449858,34.072019], //TODO: This is still hardcoded.
 
         };
+        STATE = "quest_assigner";
         console.log('inserting questobject')
         socket.emit('assign_quest',questObject);
+
     });
 
     //----------------When YOU accept a quest----------------//:
     $(' div#dialog >button').on('click',function(event){
-    	console.log(event.currentTarget.id);
-    	questId = event.currentTarget.id;
-    	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
-    	//Disable YOUR makeQuest functionality.
-    	$(`#makeQuest`).on('click',function() {
-   			 $(this).prop("disabled",true);
-		});
+        if (STATE == 'none' || STATE == 'quest_assigner'){
+        	console.log(event.currentTarget.id);
+        	questId = event.currentTarget.id;
+        	socket.emit('accept_quest',{'id':questId,'hillrunner':ID});
+        	//Disable YOUR makeQuest functionality.
+            $(`#makeQuest`).slideUp(0.8);
+        	$(`#makeQuest`).on('click',function() {
+       			 $(this).prop("disabled",true);
+    		});
+            STATE = 'hillrunner';
+        }
+        else{
+            console.log('youre hillrunning for someone!');
+            alert('you\'re hillrunning for someone')
+        }
     });
 
 //---------what to do when someone accepted a quest-----------//
@@ -214,29 +225,18 @@ ID: your id.
 
 //---------What to do when someone made a new quest.--------//
     socket.on('user_assigned_quest',(quest)=>{
-
        addToQuestTable(quest);
-
     });
 
 //-------What to do when YOU completed a quest. ------------//
     socket.on('quest_completed',(quest)=>{
-    changeUserStat('add',1,100); //TODO: Hardcoded.
+                STATE = 'none';
+                $(`#makeQuest`).slideDown(0.8);
+                changeUserStat('add',1,100); //TODO: Hardcoded.
     });
 </script>
 
 <script>
-
-                          function addDummyQUESTS(centerLatLng) {
-                              //TODO
-                              let locations = [];
-                              for (let i = 0; i < 20; i++)
-                                  locations.push({
-                                      'lat': centerLatLng['lat'] + Math.random() * 0.05,
-                                      'lng': centerLatLng['lng'] + Math.random() * 0.05
-                                  });
-                              return locations;
-                          }
                         //Called when gmaps loads:
                           function initMap() {
                               //GEO LOCATION
