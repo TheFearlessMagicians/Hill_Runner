@@ -94,8 +94,9 @@ io.on('connection', (client) => {
                 console.log(`app.js: ACCEPT IN FINDANDUPDATE FOR ${object.id} FAILED.`)
             } else {
                 //2. update map for other users:
-                User.findById({ id: object.hillrunner /* TODO: Find the user's ID*/ }, {}, function(error, hillRunner) {
+                User.findById( object.hillrunner /* TODO: Find the user's ID*/ , function(error, hillRunner) {
                     if (error) {
+                        console.log(error)
                         console.log("app.js FAILED TO FIND HILL RUNNER AND SEND HIM/HER EMAIL CONFIRMATION FOR ACCEPTING");
                     } else {
                         User.findById(foundQuest.requester, function(error, requester) {
