@@ -104,7 +104,7 @@ io.on('connection', (client) => {
                             } else {
                                 let subjectRequester = "You quest has been accepted";
                                 let textRequester = `You quest has been accepted.\n
-		                      		Deatails\n
+		                      		Details:\n
 		                      		Accepted by ${hillRunner.name}\n
 		                      		Reward to be paid ${foundQuest.reward}\n
 		                      		Accepted at ${foundQuest.updatedAt}\n
@@ -113,9 +113,9 @@ io.on('connection', (client) => {
 		                      		`
                                 sendEmail(requester.email, subjectRequester, textRequester);
 
-                                let subjectHillRunner = "You have received a quest";
-                                let textHillRunner = `You have received a quest from ${requester.name}.\n
-		                      		Your reward for completion is ${foundQuest.reward}.\n
+                                let subjectHillRunner = "You have accepted a quest";
+                                let textHillRunner = `You have accepted a quest from ${requester.name}.\n
+		                      		Your reward for completion will be  ${foundQuest.reward}.\n
 		                      		You will earn 100 experience points.\n
 		                      		\n
 		                      		Thank-you for using Hill Runner!
