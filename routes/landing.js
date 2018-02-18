@@ -5,6 +5,10 @@ let	router = express.Router({ mergeParams: true });
 //Models set up
 let User = require("../models/user");
 
+
+//Credentials set up
+let gmapsCredential = require('../creds/gmaps_creds');
+
 router.get('/', function(req, res) {
 	User.find({}, '_id', function(error,foundUsers){
 		res.render("landing",{
@@ -22,6 +26,8 @@ router.get('/:id', function(req,res){
 		} else {
 			res.render('dashboard',{
 				user: foundUser,
+                ID:req.params.id,
+                'gmapsCredential':gmapsCredential
 			});
 		}
 	});
