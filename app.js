@@ -80,8 +80,6 @@ io.on('connection', (client) => {
         }*/
     });
 
-
-
     //**************************events for hillrunners:*****************************//
     client.on('accept_quest', (object) => {
         //note that object is : {id: 'ID OF QUEST',hillrunner:'_id OF HILLRUNNER.'}
