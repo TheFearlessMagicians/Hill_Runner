@@ -3,7 +3,7 @@ let express = require("express")
 let app = express();
 let router = require('express-router');
 const serverPort = 8000;
-
+let ip = process.argv[2];
 //Socket.io setup
 let io = require('socket.io')();
 
@@ -50,6 +50,7 @@ app.use(require('./routes/landing'));
 //App settings
 app.set('port', serverPort);
 app.set('view engine', 'ejs');
+app.set('host',ip);
 app.set('views', 'views');
 app.set('sockets', []);
 
@@ -57,8 +58,8 @@ app.set('sockets', []);
 let server = app.listen(app.get('port'), function() {
     console.log('Listening on port ' + app.get('port'));
 });
-app.set('isLocal', true);
-console.log('Serving on local host')
+app.set('isLocal', false);
+console.log(`Serving on ${app.get('host')}:${app.get('port')}`)
 
 
 
@@ -213,7 +214,7 @@ io.on('connection', (client) => {
                             } else {
                                 let subjectRequester = "You quest has been completed";
                                 let textRequester = `You quest has been completed.\n
-		                      		Deatails\n
+		                      		Details\n
 		                      		Fulfiled by ${hillRunner.name}\n
 		                      		Reward paid ${quest.reward}\n
 		                      		Completed at ${quest.updatedAt}\n
