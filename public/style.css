@@ -27,8 +27,8 @@ html {
 
 #tablestyle{
 	background: rgba(255,255,255,0.7);
-	 overflow-y:scroll;
-   	 height: 200px;
+	 overflow-y: scroll;
+   	 height: 100px;
 }
 /*
 tbody,
@@ -36,11 +36,11 @@ thead{
 	width: 300px;
 }*/
 
- /*tbody > tr {
+ tbody > tr {
     cursor: pointer;
 }
 
 .result{
     margin-top:20px;
-}*/
+}
 
